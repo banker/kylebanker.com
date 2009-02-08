@@ -3,3 +3,4 @@
 These are the files that, in conjunction with Webby, generate
 my blog.
 
+Note: Sitefile must be renamed to 'Sitefile' to work with Webby.
