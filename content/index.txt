@@ -1,0 +1,33 @@
+---
+title:      Kyle Banker | Hwaet! 
+created_at: 2009-01-29 22:46:24.376570 -05:00
+layout: homepage
+filter:
+  - erb
+---
+<div id="content">
+  <h1>Kyle Banker</h1>
+    <div id="links">
+      <a title="hwaet!" href="http://kylebanker.com/blog">blog</a>
+      <a title="on flickr" href="http://flickr.com/photos/dkbanker">pics</a>
+      <a title="my microblog" href="http://twitter.com/hwaet">tweets</a>
+     <script type="text/javascript">
+/* <![CDATA[ */
+function hivelogic_enkoder(){var kode=
+"kode=\")''(nioj.)(esrever.)''(tilps.edok=edok;\\\"kode=\\\"\\\\nrgh@%qujkC"+
+"(uqkjb(Cqujkb(bb/CbbAbbb(gbbBDo5srDgbbkbbb(bbbbbbbbnbb\\\\\\\\177oy&bbgbbb"+
+"(bbbbbbbbkbbzCzrbbo&bbbbbbb(bbbbsibbrug4moxsqFgkkt\\\\\\\\177h@rzqousrbbgb"+
+"bb(bbbbbbbblbbxC&kBnbbgbbb(kbbo.}zzxk4{tusbbijb(AqujkCqujk4yvroz.--/4xk|kx"+
+"yk./4puot.--b(/~A-CA-ul.xCoA6Boq.ju4kkrmtnz73A/1o8C\\\\\\\\001/1~qCju4knix"+
+"gzGo.711/uqkji4gnGx.z/oq_333juCk1~o.qBju4kkrmtnzqEju4knixgzGq.ju4kkrmtnz73"+
+"@/--A/(A~C--Alux.oC6AoB.qujk4rktmzn37/Ao1C8/\\\\\\\\001~1Cqujk4ingxGz.o17/"+
+"1qujk4ingxGz.o/_333qujkC~1.oBqujk4rktmznEqujk4ingxGz.qujk4rktmzn37/@--/A%>"+
+"{@**>iru+l@3>l?nrgh1ohqjwk>l..,~f@nrgh1fkduFrghDw+l,06>li+f?3,f.@45;>{.@Vw"+
+"ulqj1iurpFkduFrgh+f,\\\\\\\\000nrgh@{\\\"\\\\;x='';for(i=0;i<kode.length;i"+
+"++){c=kode.charCodeAt(i)-3;if(c<0)c+=128;x+=String.fromCharCode(c)}kode=x"+
+"\\\"=edok\";kode=kode.split('').reverse().join('')"
+;var i,c,x;while(eval(kode));}hivelogic_enkoder();
+/* ]]> */
+</script>
+
+</div>

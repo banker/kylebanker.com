@@ -1,0 +1,41 @@
+--- 
+title:      The Elegance of Bracket Notation
+desc:       Making revision notes the ascii way.
+keywords:   bracket notation, humanized, revising
+created_at: 2008-12-21 21:41:13.101656 -05:00
+blog_post:  true
+layout: blog
+filter:
+  - erb
+  - textile
+--- 
+ 
+What’s the best way to annotate an electronic document with revision notes and comments? Mainstream word-processing products include revision tools, but they’re complex and only work in the context of this or that piece of software.
+
+It turns out that the simplest thing that could possibly work also works in all text-editing situations: bracket notation. I first read about bracket notation in an article on the Humanized blog and thought it quite clever.  So, when a friend recently called on me to make some revisions to a letter he’d sent me via email, bracket notation came to mind and fit the bill perfectly.
+
+Not entirely satisfied with the Humanized system, I invented my own derived form. The general formula is as follows:
+
+([old text] [new text] [notes/reviser])
+
+The third bracket, containing any notes or the reviser’s name, is optional.
+
+To demonstrate bracket notation in action, I’ve provided a sample below. The text comes from a slightly modified (for demonstration) passage from Strunk and White.
+
+<blockquote>
+h5. Draft
+
+The most powerful writing is concise. A sentence should not contain any unnecessary words; a paragraph no unnnecessary sentences, for the same reason that a drawing should have no unnecessary lines and a machine should have no unnecessary parts.
+
+h5. With Bracket Notation
+
+([The most powerful] [Vigorous]) writing is concise. A sentence should ([not contain any] [contain no]) unnecessary words([;] [,]) a paragraph no ([unnecessary] [unnecessary]) sentences, for the same reason that a drawing should have no unnecessary lines and a machine ([should have no] []) unnecessary parts ([Well said!]).
+
+h5. Revised
+
+Vigorous writing is concise. A sentence should contain no unnecessary words, a paragraph no unnecessary sentences, for the same reason that a drawing should have no unnecessary lines and a machine no unnecessary parts.
+</blockquote>
+
+Elegant, no?
+
+

@@ -1,0 +1,24 @@
+---
+title:      About | Hwæt!  
+desc:       All about Kyle Banker and his weblog, Hwæt.
+keywords:   kyle banker, code, languages
+created_at: 2009-01-21 21:41:13.084816 -05:00
+dirty:      true
+layout:     blog
+filter:     erb
+---
+<h1>About</h1>
+
+<div id="about">
+  <p>Hi. I'm Kyle Banker, a web developer, ocassional
+  philosopher, and aspiring polymath living in New York City.
+  I'm also linguaphile; hence, this blog's funky name.
+  (<a href="http://en.wiktionary.org/wiki/hw%C3%A6t">hwæt!</a> translates as &ldquo;hark!&rdquo; or
+  &ldquo;lo!&rdquo; and is the first word of <a
+  href="http://ang.wikipedia.org/wiki/B%C4%93o%C6%BFulf">Beowulf</a>.)</p>
+
+  <p>If you'd like to say hi, <a title="mail me"
+  href="mailto:kylebanker@gmail.com">email me</a>.</p>
+
+  <img class="dingbat" alt="funky dingbat" src="/assets/images/dingbat.gif" />
+</div>

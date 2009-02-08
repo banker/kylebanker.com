@@ -1,0 +1,43 @@
+--- 
+title:      From RSpec to Shoulda 
+desc:       Why I'm starting to like Shoulda...
+keywords:   rspec, shoulda, rails, ruby
+author:     Kyle Banker
+created_at: 2008-08-13 21:41:13.101656 -05:00
+blog_post:  true
+layout: blog
+filter:
+  - erb
+  - textile
+---
+
+h3. Shoulda
+
+What’s the best Rails testing framework? The one that makes your testing life most enjoyable, of course.  For me, this has been RSpec, but I’m beginning to prefer Shoulda.
+
+Shoulda provides an elegant DSL for doing Behavior-Driven Development in Test::Unit.  In addition, Shoulda includes macros for many common tasks in unit and functional tests. Thoughtbot, the company behind Shoulda, has created an excellent tutorial.  I also recommend Tammer Saleh’s presentation on BDD with Shoulda.
+
+h3. The Trouble with RSpec
+
+Part of my newfound enthusiasm for Shoulda, and Test::Unit in general, stems from a comment made by Saleh in the presentation mentioned above.  He points out that a change in the implementation of a method should not automatically cause that method’s tests to fail.
+
+This was my experience with RSpec, particularly when it came to testing controllers. The RSpec controller testing philosophy favors heavy mocking.  The rationale, as I understand it, is twofold: 1) mocking isolates the testing of the controller from the model, and 2) mocking allows for the testing of a certain kind of behavior, which, in this case, seems to be the explicit expectation that certain methods will call certain objects and return certain other objects.
+
+This test-the-implementation philosophy resulted in brittle tests. Slight changes to a controller method would frequently cause the tests to fail. To repair them, I would spend time tweaking my mocks and stubs so that they would fit the new implementation.
+
+Sure, the religious BDD way would have me adjust my tests first. But if the behavior of the controller hasn’t changed, does it make sense to go to all the trouble? When I consider controller behavior, I think of which instance variables are populated, what’s rendered, where the controller redirects, etc. Implementation, it seems to me, is not behavior.
+
+h3. Two notes
+
+First, mocking is a great boon when used judiciously, even when testing controllers.  It’s beneficial to be able to mock, say, authorization methods.  But ActiveRecord models?  I’m not so sure; I’d love to hear any arguments to the contrary.
+
+Second, this is not meant to write off RSpec once and for all; I mostly enjoy it, having recently completed a lengthy project using the framework.
+
+h3. Conclusion
+
+Shoulda’s clean syntax and time-saving macros are reason enough to check it out. Regardless of where you fall in the mocking debate, you may find Shoulda quite charming.
+
+
+h3. Update: 
+
+I no longer entirely agree with what I wrote here on mocking. See Design-Build Development for revised ideas on mocking, especially in the context of test-driven design.

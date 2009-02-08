@@ -1,0 +1,136 @@
+--- 
+title:      Design-Build Development
+keywords:   bdd, behavior-driven, testing, rails
+desc:       On behavior-driven development &ndash; the
+            gist for novices and pros alike.
+created_at: 2008-10-04 23:47:59.500545 -05:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+p(small italic). Explanations of Behavior-Driven Development often contain much nuance and noise. This FAQ is an attempt to provide a straightforward account of BDD, especially for beginning practitioners and those who have never quite understood it. To do so, this article tries to work around the three biggest obstacles to understanding Behavior-Driven Development: the main emphasis, the word “test,” and the word “behavior” itself.
+
+h3. 1. I’ve never fully grasped Behavior-Driven Development.  Many highly nuanced descriptions of BDD exist, but none is straightforward.  What’s the main idea?
+
+BDD ain’t easy. But there’s a good way to hack the learning curve; adopt the following two axioms:
+
+# BDD is not testing. Anyone who wants to understand and practive BDD must forget all notions of testing. This can be a challenge since we use the word “test” so frequently in reference to BDD (e.g, “test suite,” “test coverage” etc.). But the word “test” puts us in the wrong frame of mind.  This is because:
+# BDD is a design process. When practiced correctly, BDD helps developers design a system, from the classes and their interactions down to individual methods and their behaviors. This is what is meant by Behavior-Driven Development. The developer makes decisions about a particular class interface, for example, and then implements.
+
+So, again, to begin to understand BDD, first eliminate any reference to testing lingering in your mind. Then, meditate. Here’s your mantra:
+
+BDD is a design process.
+
+h3. 2. But I still find the words “Behavior-Driven Development” misleading. I keep thinking of “Test-Driven Development,” and, as you say, I should stop thinking about testing.
+
+
+Yes, it seems that the words “Behavior-Driven Development” have meaning only for the initiated. Let’s use another term altogether, at least for the remainder of this FAQ. We’ll call this design process Design-Build Development. It keeps the mind on track. First design, then build.
+
+h3. 3. Ok, so what’s Design-Build Development?
+
+
+Design-Build Development is an iterative four-step design-build-verify process.
+
+h4. Step 1: Design
+
+Using a design-build framework (e.g., RSpec, Shoulda), specify how a some bit of code should behave.
+
+For example, suppose I’m building a web crawler. I have a Cralwer class, which is somewhat fleshed out, and an Indexer class, which I’ve yet to work on. The important thing to notice is that as I specify behavior,  I’m deciding how the crawler will interface with the indexer.  Here’s my specification (using Shoulda):
+
+<% code "ruby" do -%>
+context "A crawler opening a url" do
+  setup do
+    @crawler = Crawler.new(Indexer.new)
+  end
+
+  should "return add the url to the index" do
+    @indexer.expects(:add_url).returns(true)
+    @crawler.start('http://sitetoindex.com')
+  end
+end
+<% end %>
+
+I mock the method add_url on the indexer. So my thought process is something like, “Well, let’s say that we’ll build a method on the indexer for adding urls. We’ll call it add_url, and it’ll return true if the operation is successful.”
+
+The benefit here is that I get to decide how the Indexer class will behave even before I’ve written any Indexer code!
+
+h4. Step 2: Run the design verifier.
+
+I run the design verifier (a.k.a tests) and receive an error saying that @indexer did not receive “add_url.”
+
+h4. Step 3: Build
+
+Now, I write the code that satisfies my specification (Note: highly oversimplified).
+<% code "ruby" do -%>
+class Crawler
+  def start(url)
+    if open(url) &amp;&amp; @indexer.add_url(url)
+      puts "#{url} successfully indexed."
+    end
+  end
+end
+<% end %>
+
+h4. Step 4: Verify
+
+I run the verifier again. Now that I’ve added “@indexer.add_url”, I don’t receive any errors.
+
+By running the verifier, I assure myself that the code conforms to the design.
+
+Then I go back to Step 1,  continuing the design-build process.
+
+h3. 4. What’s a design framework?
+
+Examples include RSpec, Shoulda, Test/Spec, and many others.  A design framework allows the programmer to translate her design into code. It’s what most of us call a testing framework. But in the case of BDD and DBD, we want to eradicate any reference to testing. Therefore, we call it a design framework.
+
+h3. 5. So, Design-Build Development doesn’t require a special framework?
+
+Not at all. Because DBD is a reframing of BDD, any of the BDD tools can be used to do DBD.
+
+h3. 6. Why is it important to avoid the word “test” when thinking about BDD and DBD?
+
+Design-Build Development is first, and foremost, a design process. When engaging in DBD, we are specifying the design and behavior of code. This must not be confused with writing tests. To use the word “test” is to shift the mindset from “design, then build” to “build, then test.”
+
+The design mindset says, “I’m crafting this system. I’m creating classes and deciding how they interface with each other. As I design, I implement my specifications little by little.”
+
+The test mindset says, “I just wrote a bunch of code; now I’m gonna write some tests to make sure that everything works like I think it should.”
+
+In the first case, the mind wields the power; in the second, it’s the code that rules.  The test mindset puts us at the mercy of the codebase.
+
+h3. 7. I see. Design-Build Development values the programmer’s intentions over the whims of a codebase.
+
+Exactly. Design-Build Development is an intentional approach to writing code. It elevates our frame of mind, focusing our energies on one chunk of the system at a time.
+
+Design-Build Development seeks to counteract what the Pragmatic Programmers call “programming by coincidence.” In the worst case, this means unreflectively writing code for weeks on end until we’ve created a monster.  Once the monster is born, our coding degenerates into a series reactive strategies to keep it in check. Tweak here, bug fix there. Anything to keep the codebase happy (and working).
+
+Programming by coincidence engenders chaos in the mind. Design-build development, by contrast, encourages focus.
+
+h3. 8. What are some other benefits of Design-Build Development?
+
+Practicing Design-Build Development, we slowly build up a wall of [specifications] that cannot break without our immediately knowing about it” (paraphrase of Ruby Test::Unit docs). This inspires confidence; it assures us that future changes to the system don’t break the behavior of any other part of the system.
+
+At the same time, the design-build process produces a specification of our system in code, so we get documentation for free.
+
+h3. 9. Why do we need yet another conceptualization of xDD?
+
+Those who already understand BDD don’t need this FAQ. My hope is simply that anyone who hasn’t internalized BDD will gain some insight from the ideas presented here.
+
+There are three obstacles preventing a wider adoption and understanding of Behavior-Driven Development:
+
+# Emphasis. BDD is a design process. This is the fundamental insight, but it’s rarely emphasized.
+# Testing. BDD connotes testing. But this works against (1), that BDD is all about designing a system. The testing mindset and the design mindset do not peacably coexist.
+# Naming. BDD sounds like TDD, and the words “Behavior-Driven Development” are not sufficiently precise. I believe that the term “Design-Build Development” more accurately indicates what BDD is. These words are a better starting point for the BDD novice.
+
+If we introduce BDD as Design-Build Development and then emphasize the value of thinking of BDD in terms of a design process (and not as testing), I believe we can effectively lower the barriers to adoption and understanding.
+
+h3. 10. Where can I read more?
+
+For an essay on the importance of thinking in terms of design,
+read Paul Graham’s "Taste for Makers":http://paulgraham.com/taste.html.
+
+For a great discussion on the BDD learning process, read the
+"Introduction to Behavior-Driven Development":http://behaviour-driven.org/Introduction at behavior-driven.org.
+

@@ -1,0 +1,26 @@
+---
+title:      Archives | Hwæt!  
+desc:       All the articles ever posted on Hwæt!
+keywords:   kyle banker, archives
+created_at: 2009-01-21 21:41:13.084816 -05:00
+dirty:      true
+layout:     blog
+filter:     erb
+---
+<h1>Archives</h1>
+<div id="archives">
+<% articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true,
+      :sort_by => "created_at", :reverse => true, :blog_post => true)
+  articles.delete(@page)
+  group_by_year(articles) do |year, pages|
+    
+-%>
+  <h4 class="year"><%= year %></h4>
+  <% pages.each do |page| %>
+    <%= render :partial => "archive", :locals => {:page => page} %>
+  <% end -%>  
+<% end -%>
+ 
+  <img class="dingbat" alt="funky dingbat" src="/assets/images/dingbat.gif" />
+</div>
+

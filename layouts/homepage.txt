@@ -1,0 +1,36 @@
+---
+extension: html
+filter:    erb
+---
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <title>Kyle Banker | Home on the Web</title>
+  <meta name="description" content="Web developer, ocassional philosopher, and aspiring polymath." />
+  <meta name="keywords" content="kyle banker, ruby, rails" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="stylesheet" href="/assets/css/homepage.css" type="text/css">
+  <script src="/assets/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/assets/js/bank.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+  <body>
+ 
+    <%= @content %>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2855758-4");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+  </body>
+
+</html>
+
+

@@ -1,0 +1,37 @@
+ @import url("reset.css");
+ 
+body {
+  background: white;
+  color: #DEDEDE;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+h1 {
+  margin: 20px;
+  font-weight: normal;
+  font-size: 0em;
+  text-align: center;
+}
+
+a {
+  padding: 2px;
+  background: #2B3F3F;
+  color: white;
+  text-decoration:none;
+}
+
+a:hover {
+  background: #5E8685;
+}
+
+#content {
+  width: 600px;
+  margin: 50px auto 50px auto;
+}
+
+#links {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 0em;
+  display:none;
+}

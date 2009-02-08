@@ -1,0 +1,21 @@
+---
+title:      Hwaet!  
+desc:       hwæt!, the weblog of Kyle Banker.
+keywords:   ruby, web development, random thoughts 
+created_at: 2009-01-21 21:41:13.084816 -05:00
+layout:     blog
+filter:     erb
+---
+
+<% articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true,
+      :sort_by => "created_at", :reverse => true, :blog_post => true)
+  articles.delete(@page)
+  paginate(articles, 10) do |page|
+-%>
+  <%= render :partial => "post", :locals => {:page => page,
+  :content => render(page), :partial_render => true} %>
+<% end -%>
+  
+<% if @pager.prev || @pager.next %>
+  <%= render :partial => "pagination" %>
+<% end %>

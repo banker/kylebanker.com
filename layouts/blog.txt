@@ -1,0 +1,75 @@
+---
+extension: html
+filter:    erb
+---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title><%= @page.title %> | Kyle Banker</title>
+   <meta name="description" content="<%= @page.desc %>" />
+   <meta name="keywords" content="<%= @page.keywords %>" />
+   <meta name="author" content="Kyle Banker" />
+
+   <!--- Blueprint CSS Framework -->
+   <link rel="stylesheet" href="/assets/css/screen.css" type="text/css" media="screen, projection" />
+
+   <link rel="stylesheet" href="/assets/css/code.css" type="text/css" />
+
+   <!-- Blog CSS -->
+   <link rel="stylesheet" href="/assets/css/blog.css" type="text/css" media="screen, projection" />
+   <link rel="alternate" type="application/rss+xml" title="Kyle Banker RSS Feed" href="http://feeds2.feedburner.com/KyleBanker" />
+
+</head>
+<body>
+   <div id="sidebar">
+    <h3 id="logo"><a href="http://kylebanker.com/blog/">hwæt!</a></h3>
+    <p>(kyle banker's blog)</p>
+    <ul>
+    <li><% if @page.path != "content/blog/about.txt" %>
+      <a title="what does 'hwaet' mean? who is kyle banker?" href="/blog/about/">about</a>
+    <% else %>
+      about
+    <% end %></li>
+    <% if @page.path != "content/blog/archives.txt" %>
+      <li><a title="a list of past articles"
+      href="/blog/archives/">archives</a></li>
+    <% else %>  
+      <li>archives</li>
+    <% end %>  
+    </ul>
+   </div>
+
+
+<div class="container">
+   <div class="column full last">
+     <% if @page.blog_post == true %>
+       <%= render :partial => "/blog/post", :locals => {:page =>
+       @page, :content => @content, :link => false} %>
+     <% else %>
+       <%= @content %>
+     <% end %>
+   </div>
+
+   <div id="footer" class="column full last">
+     <p>licensed under the <a
+     href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/">creative
+     commons</a>. share and <a
+     href="http://feeds2.feedburner.com/KyleBanker">subscribe</a> freely.
+   </div>
+
+</div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2855758-4");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+</body>
+</html>

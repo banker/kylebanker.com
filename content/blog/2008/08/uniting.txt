@@ -1,0 +1,25 @@
+--- 
+title:      Uniting
+keywords:   engineering, design, beautiful, machines
+desc:       On the remarriage of tech and art. 
+created_at: 2008-08-17 21:41:13.101656 -05:00
+blog_post:  true
+layout: blog
+filter:
+  - erb
+  - textile
+---
+
+Engineers and designers must collaborate. Whether building a bridge, a commercial jet, or a web application, the most elegant solution will result from an open dialog between design and engineering. Apple understands this. So does Boeing, with its notion of the design/build team.  This sort of cooperation will always be important.  Big Contrarian recently wrote about the fallacy of thinking otherwise:
+
+Designers running free, creating without concern for the production is nonviable. Designs can become hinged to interactions that will not work, with the compromised result damaged to the point of mediocrity. Engineers paving the way is just as fruitless. Solutions will lack elegance and beauty. A utilitarian wonderland of marginal design with exquisite engines. Volvo-world.
+
+To see engineering as divorced from design is to fall prey to an even greater fallacy: that design and engineering are entirely separate disciplines.  It is tempting to think of the engineer as mere implementer, as one who mechanically applies the laws of physics to make a design reality.  Many also find it convenient to assign all creative control to the designer, as if engineers were somehow devoid of creativity.
+
+This kind of thinking quickly crumbles once we reflect for a moment on elegance.  Elegance, as David Gelernter defines it, is the combination of simplicity and power.  The human mind, with its innate aesthetic sensibilities, quickly apprehends elegance, and that is why we love Velcro, the iPhone, suspension bridges, object-oriented programming, and the jet engine.
+
+But its not just simplicity and power. These inventions are elegant because, in their design, they fit snugly within the jagged spaces between the laws of the physical world and the modes of human being.  Put more colloquially, they are effective and user-friendly.
+
+It should be immediately obvious that cooperation between engineers and designers is only the minimum requirement for such elegance.  Even better would be engineers who read Shakespeare and designers who study physics: engineer-designers, as it were.  For without creativity, engineers cannot produce elegant solutions.  And lacking knowledge of the physical world, designers work against nature. 
+
+The ideal, then, is a sort of Leonardo da Vinci, the Renaissance man with a sense for beauty and mystery and a keen understanding of process and physical law.  For engineering and design are much more intertwined than they appear.

@@ -1,0 +1,16 @@
+---
+filter: erb
+---
+<div class="post clear">
+  <h1><a title="Permanent link to '<%= page.title %>'" rel="bookmark" href="<%= page.url %>"><%= page.title %></a></h1> 
+    <p class="date"><%= format_date(page.created_at)
+    %></p>
+      <% if defined?(partial_render) && partial_render == true %>
+       <%= render_partially(content, page) %>
+      <% else %>
+       <%= content %>
+      <% end %>
+    <div class="dingbat">
+      <img class="dingbat" alt="funky dingbat" src="/assets/images/dingbat.gif" />
+    </div>
+</div>

@@ -1,0 +1,15 @@
+---
+filter: erb
+---
+<div id="pagination">
+<% if @pager.prev? %>
+ <%= link_to("prev", @pager.prev) %> 
+<% else %>
+  <span class="quiet">prev</span>
+<% end %> | 
+<% if @pager.next? %>
+  <%= link_to("next", @pager.next) if @pager.next? %>
+<% else %>
+  <span class="quiet">next</span>
+<% end %>  
+</div>
