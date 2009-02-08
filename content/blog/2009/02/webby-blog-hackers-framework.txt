@@ -1,0 +1,42 @@
+--- 
+title:      A Hacker's Framework for Blogging
+desc:       Webby makes static html fun! 
+keywords:   webby, ruby, blog 
+created_at: 2009-02-08 12:08:44.194321 -05:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+h3. Customizable and Quick 
+
+I wanted to redesign my blog and host it on my VPS, but two obstacles stood in my way. First, I had been using Wordpress, but had no desire to dig into the tarpit of Wordpress theme design. Second, I wanted to use Ruby, but didn't care for the overhead of running Typo, Mephisto, or even an improvised Sinatra- or Camping-based blog engine.  
+
+Solution? "Webby":http://webby.rubyforge.org/.
+
+Webby is a static site generator written in Ruby.  It employs many of the conventions familiar to Rails programmers (templates, partials, and layouts), with your choice of templating languages (erb, haml, textile), and syntax highlighting (via Coderay or Ultraviolet) baked in. 
+
+Webby also includes some nifty <b>finder methods</b> and <b>pagination</b>, so the API feels like an ORM.
+
+
+h3. Advantages
+
+There are several advantages of hosting a static html blog:
+# <b>Cached 100%</b> and uses <b>very little memory</b>. This  means that if you host on a VPS, you still have plenty of resources left for side-projects.
+# <b>Customizable</b>. Use the templating language and code-highlighting plugins you like best.  
+# <b>Freedom</b>. It should go without saying that a static blog can be organized in innumerable ways. Tumblelog, photoblog, favorite quotes, etc.  
+# <b>Compose with the editor of your choice</b>. Hammer it out in Vim, and deploy with one command.
+
+h3. Sold? 
+
+You can download the source for this site from "github":http://github.com/banker/kylebanker.com/tree/master.
+
+Marc-André Cournoyer has a "great article":http://macournoyer.com/blog/2008/12/08/new-site/ on his experience with Webby, Haml, and Sass. He's written a monkey patch for pretty urls, which I've used on this site.
+
+Also worth investigating are Webby's "documentation and tutorial":http://webby.rubyforge.org/learn/ and Mike Clark's "thorough writeup":http://clarkware.com/cgi/blosxom/2008/08/06/Webby.
+
+Having trouble installing Ultraviolet? "Read this":http://snippets.aktagon.com/snippets/61-Installing-Ultraviolet-and-Oniguruma.
+
+Finally, if you end up using Webby, or have any questions about it, feel free to drop me a line. Here's to static HTML!

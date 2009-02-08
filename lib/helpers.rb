@@ -18,7 +18,7 @@ module Helpers
       grouped[year] ||= []
       grouped[year] << page
     end
-    grouped.sort.each do |group|
+    grouped.sort.reverse.each do |group|
       yield group.first, group.last
     end  
   end
@@ -33,6 +33,7 @@ module Helpers
     return opener
   end
 
+  # Code highlighting helper.
   def code(lang, &block)
     uv(:lang => lang, :theme => "twilight", &block)
   end
