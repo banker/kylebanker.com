@@ -39,5 +39,5 @@ Also worth investigating are Webby's "documentation and tutorial":http://webby.r
 
 Having trouble installing Ultraviolet? "Read this":http://snippets.aktagon.com/snippets/61-Installing-Ultraviolet-and-Oniguruma.
 
-Finally, if you end up using Webby, or have any questions about it, or you're just diggin the staic html sweetness, feel free to drop me a line.
+Finally, if you end up using Webby, or have any questions about it, or you're just diggin' the static html sweetness, feel free to drop me a line.
 
