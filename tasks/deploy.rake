@@ -12,9 +12,13 @@ namespace :deploy do
 
   desc 'Deploy to the server using ssh'
   task :ssh do
-  puts SITE.port
+    Rake::SshDirPublisher.new(
+        "#{SITE.user}@#{SITE.host}", SITE.remote_dir, SITE.output_dir).upload
+  end
+
+  desc 'Deploy to the server using ssh with specified port'
+  task :ssh_with_port do
     Rake::SshDirPublisher.new(
         "#{SITE.user}@#{SITE.host}", SITE.port, SITE.remote_dir, SITE.output_dir).upload
   end
-
 end

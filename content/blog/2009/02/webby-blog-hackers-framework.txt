@@ -1,6 +1,6 @@
 --- 
 title:      A Hacker's Framework for Blogging
-desc:       Webby makes static html fun! 
+desc:       Webby, a static html party. 
 keywords:   webby, ruby, blog 
 created_at: 2009-02-08 12:08:44.194321 -05:00
 blog_post:  true
@@ -39,4 +39,5 @@ Also worth investigating are Webby's "documentation and tutorial":http://webby.r
 
 Having trouble installing Ultraviolet? "Read this":http://snippets.aktagon.com/snippets/61-Installing-Ultraviolet-and-Oniguruma.
 
-Finally, if you end up using Webby, or have any questions about it, feel free to drop me a line. Here's to static HTML!
+Finally, if you end up using Webby, or have any questions about it, or you're just diggin the staic html sweetness, feel free to drop me a line.
+
