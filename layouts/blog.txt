@@ -20,7 +20,7 @@ filter:    erb
 
    <!-- Blog CSS -->
    <link rel="stylesheet" href="/assets/css/blog.css" type="text/css" media="screen, projection" />
-   <link rel="alternate" type="application/rss+xml" title="Kyle Banker RSS Feed" href="http://feeds2.feedburner.com/KyleBanker" />
+   <link rel="alternate" type="application/rss+xml" title="Kyle Banker RSS Feed" href="http://kylebanker.com/blog/feed.xml" />
 
 </head>
 <body>
