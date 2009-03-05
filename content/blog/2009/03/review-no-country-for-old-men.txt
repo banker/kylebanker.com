@@ -1,0 +1,23 @@
+--- 
+title:      "Review: No Country for Old Men"
+desc:       Cormac McCarthy's disturbingly violent novel, reviewed. 
+keywords:   no country for old me, book review, cormac mccarthy 
+created_at: 2009-03-04 22:15:13.936370 -05:00
+blog_post:  true
+review:     true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+Several scenes from Cormac McCarthy's "No Country for Old Men":http://www.amazon.com/Country-Old-Men-Vintage-International/dp/0307387135/ref=pd_bbs_sr_2?ie=UTF8&s=books&qid=1236226697&sr=8-2 made me sick to my stomach. Yet somehow I finished this novel, impelled by a deep respect for McCarthy's other works (e.g., The Border Trilogy, The Road) and the inescapable allure of violence. 
+
+For this novel is indeed horrific. The remorseless Chigurh, unmoved by any power save the caprice of a coin flip, casts a dark pall across this story. Intermixed are the reflections of an old sheriff trying to make sense of the downfall of American civilization, of civility itself, and the turning away from the simple truths of right and wrong.
+
+Sure, there's also a narcotics plot featuring a suitcase stuffed with millions of dollars, decaying bodies, Ford Broncos, innumerable dreary hotels, border crossings, cafe diners, and anonymous powerful men working behind the scenes from Houston skyscrapers. But the novel seems indifferent to these details in the end. Even certain sympathetic characters, when brutally murdered, are apparently forgotten, the narrative not skipping a beat.
+
+What stand out are Sheriff Bell and Chigurh; their names cannot be unintentional. Bell serves as a reminder, a call to ponder, and not ignore, the brutality we witness in the news daily and the horror that may be to come. 
+
+That horror would be Chigurgh, the amorphous and frightening embodiment of civilization as it stands taken its logical extreme. I don't believe I've ever encountered a character so heinous in all of literature, an eerie and sobering portrait I won't soon forget. 
+
