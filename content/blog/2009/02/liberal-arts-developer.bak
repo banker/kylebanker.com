@@ -1,0 +1,115 @@
+--- 
+title:      Liberal Arts Developer
+desc:       Studied philosophy, Relative tech noob. 
+keywords:   philosophy, software development, profession
+created_at: 2009-02-11 22:51:46.301718 -05:00
+blog_post:  false 
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+h3. I studied philosphy
+
+Okay.  I've got a confession to make: I didn't study computer
+science formally. No big deal, right?  Tons of other developers
+lacks formal education in CS as well. Okay, here's my other
+confession: I just started developing a couple years ago. I've
+been doing it professionally for, like, 1.5 years. 
+
+That's right. I'm what you call a liberal arts developer.
+You know, the guy, or gal, who studied philosophy, linguistics, or
+even political science but who, one day, discovered writing
+code was way cooler than writing for academic journals,
+teaching, or [insert liberal arts career choice here.]
+
+I just don't want anyone reading this blog to think that I have
+some kind of special expertise, that what I write is coming
+from years of experience and/or formal training (a term which I
+despise. Training?  Like I'm a domesticated animal?)
+
+I know I'm not alone. I work at a web agency in Manhattan, and
+several, if a minority, of my fellow devs are liberal arts
+guys. Many of the luminaries of the open source world, too,
+didn't study computer science formally. So I feel I'm in good
+company. But there are a couple problems.
+
+See, I have this crazy voracious appetite for learning. I want
+to master everything, whether it's the French language, jazz,
+classical guitar, or, even (you guessed it) software
+development.
+
+But feeling competent in software development takes time. I
+mean, yeah, my Ruby skills are coming along nicely. But there's
+a whole slew of topics whose surface I've just begin to
+scratch: C, Unix programming, data structures and algorithms,
+parsing, ai, compilers. And man do I go nuts sometimes on
+Amazon: "So, what should I work on next? I know I'm not ready
+for the Dragon Book, but maybe I'll try and tackle SICP in my
+free time. Then again, I still have that book on linux
+programming sitting on my shelf at home. Oh look, Why the Lucky
+Stiff just wrote a blog post about (insert avant garde
+hacking/gaming/graphics language/framework here). Maybe I
+should try that." (Yes, I have a bibliographic mind. Whenever I
+get interested in a topic, I research all the best books on
+that topic, which pretty much turns me into a walking
+bibliography.)
+
+The problem gets worse when I'm surfing Github. To be sure, I recently
+published some of my first open source projects, and am quite
+proud. But then I look at what these crazy-smart dudes pumping
+out shit like Nokogiri and custom toy implementations of
+Python, and then I end up feeling really dumb.
+
+But I had a fruitful revelation a couple days back when
+reading one of these crazy-smart dude's blogs. In order for it
+to make sense, though, I need to take quick detour (just one
+paragraph) to describe how I became a software developer.
+
+The short of it is this: From a very young age I was destined
+to be a geek. Disassembled all my toy electronics as a kid,
+performed improvised science experiments that scared my mom
+into phoning my science teacher at school, who would then pull
+me aside as kindly ask me not to do anything dangerous (at the
+time, I believe that I was trying to determine if corn oil was
+combustilbe). Anyway, eighth grade rolls around, my family
+inherits an old Intel 8088, and over the next four years I
+teach myself Basic, C, C++, and Pascal, in that order.
+
+But then my geek story diverges. Decide that computers are void
+of meaning and humanity. So, naturally, I completely devote myself to 
+the humanities, particularly English and philosophy. That's what I end up studying in
+college, quite happily. But, of course, there's always this
+sort of technical bent (e.g, I studied English because I love
+language itself, not because I like reading flowery novels,
+like many an English major).
+
+So, it's 2006, and I'm teaching Spanish, Britsh Literature, and
+choir to high school students, and I'm not entirely digging it
+(that's another blog post), and at the same time, nearly a
+decade dormant, my interest in computers and code is rekindled. 
+I flirt with java, discover Ruby and Rails, and then spend my bits
+of free time reeducating myself. Teach my last class in June
+2007, and by October, 2007, I have a job working professionally
+with Rails. Yes, Lady Fortune was on my side. (And just in case there's any 
+doubt, I love my new profession. I look forward to going to
+work every day.)
+
+So, back to this revelation. It's quite simple. I was reading
+one these crazy-smart dude's blog posts about parser
+generators, kicking myself for being so dumb, and then noticed
+the date: April 2006.
+
+2006? Ding!
+
+Wait a second. In April 2006, I was still spending my days with
+classrooms full of teenagers, trying to get them to
+appreciate the subtelties of the subjunctive mood in Spanish (a
+Sisyphean task, I assure you). 
+
+I mean, in April, 2006, I hadn't even begun working through
+fucking Depot! Why am I comparing myself to some dude who, at
+that time, was designing programming languages?
+
+

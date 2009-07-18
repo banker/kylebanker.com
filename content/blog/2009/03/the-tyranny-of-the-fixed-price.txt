@@ -1,0 +1,17 @@
+--- 
+title:      The Tyranny of the Fixed Price
+desc:       Oy Vey 
+keywords:   bailout, macur olson, economics 
+created_at: 2009-03-19 21:56:25.109627 -04:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+From Philip Greenspun's "book report":http://blogs.law.harvard.edu/philg/2009/03/16/how-rich-countries-die/ on "The Rise and Decline of Nations: Economic Growth, Stagflation, and Social Rigidities":http://www.amazon.com/gp/product/0300030797?ie=UTF8&tag=pgreenspun-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=0300030797.  The book's author, Mancur Olson, argues that national economies fall with the rise of special interest groups, which prevent markets from correcting themselves: 
+
+bq. How could the Great Depression have lasted so long?  [Mancur] Olson suggests assuming that a lot of prices are fixed by colluding business cartels and/or by government regulation.  The prices are fixed higher than they would be in a free market, which imposes costs on society and guarantees supranormal profits to cartel members.  If there is inflation, the losses to the economy from the cartel are ameliorated.  The fixed price is no longer much higher than what would have been the market price.  In the event of deflation, however, the fixed price is now ridiculously high, demand for such an overpriced product plummets, and production plummets.  Investment in new factories will fall to zero almost immediately.
+
+The government bailouts seem all the more deplorable and misguided.

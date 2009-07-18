@@ -1,0 +1,31 @@
+--- 
+title:      The Perils of Simplicity
+desc:       Michael Osinski reflects on the financial chaos enabled by his software. 
+keywords:   software, simplicity, finance
+created_at: 2009-03-31 20:08:33.171596 -04:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+Michael Osinski's software helped create the morgage-backed securities that
+have undermined our banking system. He reflects on the easy
+manipulation of systems we don't wholly understand:
+
+bq. The power we all hold in our hands is shocking, yet
+it’s controlled by a few swipes of a finger. The drive to simplify the
+user’s contact with the machine has an inherent side effect of
+disguising the complexity of a given task. Over time, the users of any
+software are inured to the intricate nature of what they are doing.
+Also, as the software does more of the “thinking,” the user does less.
+
+How do we reconcile this "shocking" power with the simplicity enabled
+by modern software? As more and more human systems submit to control by
+software, how do we avoid rendering what's supposed to be too difficult or
+too dangerous all too doable?
+
+"Osinski's story":http://www.printthis.clickability.com/pt/cpt?action=cpt&title=My+Manhattan+Project&expire=&urlID=35003522&fb=Y&url=http%3A%2F%2Fnymag.com%2Fnews%2Fbusiness%2F55687%2F&partnerID=73272 is worth reading.
+
+

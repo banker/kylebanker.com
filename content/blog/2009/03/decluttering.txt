@@ -1,0 +1,27 @@
+--- 
+title:      Decluttering
+desc:       DIY for decluttering your desk and the floor underneath. 
+keywords:   declutter your desk, diy, organizing 
+created_at: 2009-03-29 22:31:44.415453 -04:00
+blog_post:  true
+layout: blog
+filter:
+  - textile
+--- 
+
+A cable modem, wireless router, and power strip can still equal a mess under
+the desk. A few cheap materials and two hours of enjoyable labor yielded
+this from the front:
+
+<div class="clear">
+<img src="/assets/content/2009/decluttered_desk_front.jpg" />
+</div>
+
+And this underneath: 
+
+<div class="clear">
+<img src="/assets/content/2009/decluttered_desk_bottom.jpg" />
+</div>
+
+Alas, this clever idea is not my own. Check out "Declutter Your
+Desk":http://www.decluttered.com for the original implementation.

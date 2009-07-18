@@ -1,0 +1,35 @@
+--- 
+title:      "Recipe: Salmon and Sweet Potatoes"
+desc:       A gourmet meal for the recession times. 
+keywords:   salmon, sweet potatoes, gourmet, quick dinner
+created_at: 2009-03-17 23:45:12.089275 -05:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+h3. A simple, relatively inexpensive, fancy dinner (and, no, I can't believe I'm posting a recipe to my blog.)
+
+Gourmets can still eat well, even as we enter recession times. Try on this salmon recipe instead of going out; it won't break the bank.
+
+h4. Salmon 
+
+* 2 Salmon steaks
+* 4 tbsp mustard (dijon, spicy brown)
+* 1 tbsp honey
+* 1/2 cup chopped fresh herbs (mostly parsley, with some thyme)
+* Parchment paper
+
+Preheat oven to 450F. Mix the mustard and honey. Line a cookie sheet with the parchement paper, placing the Salmon on top. Spread the honey-mustard mixture over the surface of the Salmon steaks and sprinkle with the herbs. Bake around 20 minutes, or until flaky.
+
+h4. Sweet Potatoes
+
+* 4 tbsp unsalted butter (cut into four pieces)
+* 2 tbsp heavy cream
+* 1/2 tsp salt
+* 1 tsp sugar
+* 2lbs sweet potatoes, peeled, quartered, cut into 1/4-inch-thick slices.
+
+Combine the butter, cream, salt, sugar, and potatoes in a medium saucepan. Cover and cook over low heat until the potatoes become mashable, 30-45 minutes. Remove from heat and mash.
