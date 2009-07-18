@@ -1,5 +1,5 @@
 --- 
-title:      Desert Solitaire
+title:      "Review: Desert Solitaire"
 desc:       Edward Abbey's philosophical ode to the desert. 
 keywords:   edward abbey, gilbert keith chesterton, philosophy, desert
 created_at: 2009-02-24 21:14:42.071794 -05:00

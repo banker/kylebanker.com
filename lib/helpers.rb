@@ -26,7 +26,7 @@ module Helpers
   # Used for the index page.  Renders
   # part of the page if it's too long.
   def render_partially(text, page)
-    return text if text.length < 1000
+    return text if text.length < 2300
     opener = text.split(/<\/p>/).first
     opener += "&nbsp;<span class='readmore'>
       (<a href='#{page.url}'>more...</a>)</span></p>"

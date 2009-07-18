@@ -58,7 +58,10 @@ a:hover.image {
   background-color: <%= @page.color['white'] %>;
 }
 
-blockquote        { color: <%= @page.color['blockquote'] %>; }
+blockquote    { 
+  color: <%= @page.color['blockquote'] %>;
+  border-left: 0.3em solid gray;
+}
 
 pre {
   background: <%= @page.color['box-bg'] %>;

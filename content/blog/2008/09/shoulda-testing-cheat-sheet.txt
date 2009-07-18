@@ -7,15 +7,18 @@ blog_post:  true
 layout: blog
 filter:
   - erb
-  - textile
 ---
 
-<b>Updated 10/1/08</b>: Modified for the release of Shoulda 2.0.
+<p><b>Updated 10/1/08</b>: Modified for the release of Shoulda 2.0.</p>
 
-<b>Updated 9/26/08</b>: Fixed some typos and omissions.  Added should_route and should_render_with_layout (Thanks to Dan Croak and Michal Szajbe).
+<p><b>Updated 9/26/08</b>: Fixed some typos and omissions.  Added should_route
+and should_render_with_layout (Thanks to Dan Croak and Michal Szajbe).</p>
 
-I’ve created a basic Shoulda cheat sheet.  Along with Topfunky’s "Ruby on Rails Testing Cheat Sheet":http://nubyonrails.com/articles/ruby-rails-test-rails-cheat-sheet, it should be a good reference, especially for those migrating from RSpec.
+<p>I’ve created a basic Shoulda cheat sheet.  Along with Topfunky’s "Ruby on
+Rails Testing Cheat
+Sheet":http://nubyonrails.com/articles/ruby-rails-test-rails-cheat-sheet, it
+should be a good reference, especially for those migrating from RSpec.</p>
 
-div(clear). <a class="image" href="/assets/content/2008/shoulda_cheat_sheet.pdf"><img
+<div class="clear"><a class="image" href="/assets/content/2008/shoulda_cheat_sheet.pdf"><img
 alt="Shoulda Cheat Sheet" title="Shoulda Cheat Sheet"
-src="/assets/content/2008/shoulda_cheat_sheet.jpg" /></a>
+src="/assets/content/2008/shoulda_cheat_sheet.jpg" /></a></div>
