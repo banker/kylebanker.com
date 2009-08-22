@@ -8,7 +8,7 @@ filter:
 <div id="content">
   <h1>Kyle Banker</h1>
     <div id="links">
-      <a title="hwaet!" href="http://kylebanker.com/blog">blog</a>
+      <a title="hwaet!" href="/blog">blog</a>
       <a title="on flickr" href="http://flickr.com/photos/dkbanker">pics</a>
       <a title="my microblog" href="http://twitter.com/hwaet">tweets</a>
      <script type="text/javascript">

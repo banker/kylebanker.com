@@ -1,0 +1,75 @@
+--- 
+title:      Simple Proxy with Squid, SSH, and a VPS
+desc:       How to set up a simple proxy server for (somewhat) private browsing. 
+keywords:   squid, proxy server, ssh, port forwarding, private browsing
+created_at: 2009-08-15 20:59:24.794078 -04:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+Sometimes, while at home browsing the web, I'll enter an erroneous address and receive my ISP's custom search page - with suggested links - as a response. This is always a little unsettling because it reminds me that all of my network traffic is being mediated, and perhaps recorded, by a powerful media conglomorate.  
+
+If you have a VPS, it's easy to set up your own proxy server, connect securely using SSH, and know that any traffic sniffed by your ISP will be encrypted.
+
+<strong>1. Install and configure Squid.</strong>
+
+If you're running Ubuntu, you can install "Squid":http://www.squid-cache.org/
+as follows:
+
+<% uv :lang => "ruby", :theme => "twilight" do %>
+sudo apt-get install squid squid-common
+<% end %>
+
+Before starting the server, you'll need to make some changes to the squid configuration file
+(*/etc/squid/squid.conf*).
+
+First, decide upon a visible_hostname. Squid won't start unless this directive is set.
+
+<% uv :lang => "ruby", :theme => "twilight" do %>
+visible_hostname my_funky_proxy_server 
+<% end %>
+
+Next, make sure that you allow for all http traffic.
+
+<% uv :lang => "ruby", :theme => "twilight" do %>
+http_access allow all
+<% end %>
+
+Finally, if you'd like Squid to run on a port other than the default, search for the
+http_port directive:
+
+<% uv :lang => "ruby", :theme => "twilight" do %>
+http_port 3128
+<% end %>
+
+Save your settings and start the squid server.
+
+<% uv :lang => "ruby", :theme => "twilight" do %>
+sudo /etc/init.d/squid start
+<% end %>
+
+If Squid starts without any errors, you'll have yourself an http proxy server running on port 3128 of your VPS.
+
+*2. Port forwarding with SSH.*
+
+The next step is to initiate a secure connection between a port on your home
+computer and port 3128 (or whichever port Squid is running on) on your VPS. Suppose we choose a local port 2600. Then
+we can use SSH to connect like so:
+
+<% uv :lang => "ruby", :theme => "twilight" do %>
+ssh -N -L 2600:localhost:3128 me@myvps.com
+<% end %>
+
+This command connects to myvps.com with the username *me* and, when connected,
+forwards port 2600 on my local computer to port 3128 on myvps.com.
+
+*3. Point your web browser to the new secure port.*
+
+If you're using Firefox, open up the preferences, choose *Advanced* > *Network*
+> *Settings*.  Choose *Manual proxy configuration*, enter *localhost* as the
+> HTTP proxy and 2600 (or whichever local port you configured in the last
+> set) as your port.
+

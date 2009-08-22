@@ -25,7 +25,7 @@ filter:    erb
 </head>
 <body>
    <div id="sidebar">
-    <h3 id="logo"><a href="http://kylebanker.com/blog/">hwæt!</a></h3>
+    <h3 id="logo"><a href="/blog/">hwæt!</a></h3>
     <p>(kyle banker's blog)</p>
     <ul>
     <li><% if @page.path != "content/blog/about.txt" %>

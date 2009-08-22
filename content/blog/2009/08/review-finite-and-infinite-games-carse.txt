@@ -1,0 +1,68 @@
+--- 
+title:      "Review: Finite and Infinite Games"
+desc:       Welcoming another thinker's dual lens.
+keywords:   James P. Carse, Finite and Infinite Games
+created_at: 2009-08-17 12:57:06.903721 -04:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+Western thinkers are fond of dividing the world in two. Though simplistic,
+it's effective. The flesh vs. spirit characters in the novels of "Nikos
+Kazantzakis":http://en.wikipedia.org/wiki/Nikos_Kazantzakis
+are memorable. The "modes of having and
+being":http://www.amazon.com/Have-Be-Erich-Fromm/dp/0826409121 in "Erich
+Fromm":http://en.wikipedia.org/wiki/Erich_Fromm are illustrative.
+And when "James P. Carse":http://en.wikipedia.org/wiki/James_P._Carse wrote about finite and infinite games, we were given
+another dichotomous lens for peering into the mysteries of human being.
+
+In "Finite and Infinite
+Games":http://www.amazon.com/Finite-Infinite-Games-James-Carse/dp/0345341848,
+Carse asks us to construe human activities - working, loving, walking, cooking,
+reading, driving - in fact, anything you can imagine - as kinds of games, and
+invites us to consider whether we play these games finitely or infinitely.   
+
+Finite games are meant to come to an end. They are played for the pupose of
+winning, vanquishing an oppnenet, or bringing about some desired outcome: a
+student gains admission to the Ivy League, a worker receives a promotion, a
+country goes to war and wins or loses. 
+
+Finite games are <i>theatrical</i>. They require an audience to say who has won, to
+agree upon an end, and to confer titles upon the winners, which is all but
+certain for finite players:
+
+bq. The outcome of a finite game is the past waiting to happen. Whoever
+plays toward a certain outcome desires a particular past. By competing for a
+future prize, finite players compete for a prized past.
+
+Infinite players, on the other hand, play with the spirit of continuting
+play. Such play is not theatrical but <i>dramatic</i>. The drama lies in choosing an
+undefined path that is not ultimately for oneself. Artists and visionaries,
+those who revel in spontaneity and laughter, who are aware of their places in
+society but do not take their places seriously -- these are infinite players.
+
+It soon becomes clear that finitude and infinity are not intrinsic to
+particular games but to the attitude of the player. The simple act of eating a
+meal can be either a finite or infinite game. I might be eating with a certain
+end in mind, to gain energy or lose weight or make a political statement. I 
+might also eat spontaneousy, for no <i>reason</i> other than to eat. 
+
+To read this book is to subject our attitudes to the finite-infinite paradigm,
+discover that we're engaged in both modes of play, and consider to what extent
+we're comfortable with this. Our conclusion may depend on our response to the book's
+compelling final chapter, whose subject is myth and whose main idea is
+illustrated by the story of Copernicus:
+
+bq. Copernicus was a traveler who went with a hundred pairs of eyes,
+daring to look again at all that is familiar in the hope of vision. What we
+hear in this account is the ancient saga of the solitary wanderer, the
+peregrinus, who risks anything for the sake of surprise. True, at a certain
+point he stopped to look and may have ended his journey as a Master Player
+setting down bounded fact. But what resounds most deeply in the life of
+Copernicus is the journey that made knowledge possible and not the knowledge
+that made the journey successful.
+
+
