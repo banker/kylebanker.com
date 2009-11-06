@@ -21,6 +21,9 @@ filter:    erb
    <!-- Blog CSS -->
    <link rel="stylesheet" href="/assets/css/blog.css" type="text/css" media="screen, projection" />
    <link rel="alternate" type="application/rss+xml" title="Kyle Banker RSS Feed" href="http://kylebanker.com/blog/feed.xml" />
+   <script type='text/javascript'>
+     var disqus_developer = 1;
+   </script>
 
 </head>
 <body>
@@ -51,6 +54,9 @@ filter:    erb
      <% else %>
        <%= @content %>
      <% end %>
+   <% if @page.comments %>
+<div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/kylebanker/embed.js"></script><noscript><a href="http://kylebanker.disqus.com/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+   <% end %>
    </div>
 
    <div id="footer" class="column full last">
@@ -61,7 +67,22 @@ filter:    erb
    </div>
 
 </div>
-
+<script type="text/javascript">
+var disqus_developer = 1;
+//<![CDATA[
+(function() {
+var disqus_developer = 1;
+	var links = document.getElementsByTagName('a');
+	var query = '?';
+	for(var i = 0; i < links.length; i++) {
+	if(links[i].href.indexOf('#disqus_thread') >= 0) {
+		query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+	}
+	}
+	document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/kylebanker/get_num_replies.js' + query + '"></' + 'script>');
+})();
+//]]>
+</script>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

@@ -1,0 +1,114 @@
+--- 
+title:      MongoDB in Three Minutes
+desc:       Schema-less documents, dynamic queries, and binary storage.
+keywords:   mongodb, document database, ruby
+created_at: 2009-11-05 20:59:32.787961 -05:00
+blog_post:  true
+comments: true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+Couple nights back, I was given three minutes to demonstrate MongoDB before a
+somewhat large group of people who'd never heard of it. At one minute each,
+here are the highlights:
+
+h3. <strong>1. Schema-free documents.</strong>
+
+MongoDB is schema-free; this means that the structure of MongoDB data need not be defined up front.
+MongoDB stores data as collections of documents. A document can be thought of
+as a JSON object, Python dictionary, or Ruby hash (among other things). Documents are natural,
+elegant ways of representing data, and are of the essence of MongoDB.
+
+Suppose we want to download a few tweets.
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+# DB connection and collection
+@db  = Mongo::Connection.new.db(DATABASE_NAME)
+@nyc = @db.collection('nyc')
+ 
+(1..5).each do |page|
+  Twitter::Search.new('nyc').page(page).each do |tweet|
+    @nyc.save(tweet)
+  end
+end
+<% end %>
+
+That gets us the first five pages of 'nyc'-related tweets and saves them to the
+our 'nyc' collection in the db. For each tweet, the Twitter gem returns a Ruby
+hash, which saves naturally to the database.
+
+h3. <strong>2. Dynamic queries.</strong>
+
+MongoDB speaks the language of documents. We can query for a specific key:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+  @nyc = DB.collection('nyc')
+  @nyc.find(:username => "hwaet")  
+<% end %>
+
+Or on a nested key pointing to an array:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+  @nyc.find('user.followers' => {'234352343'})  
+<% end %>
+
+We search a field using a regular expression:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+  @nyc.find('text' => /z.+/})  
+<% end %>
+
+Or query across a date range:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+  @nyc.find('created_at' => {'$lte' => Time.now - (60*60*24)}})  
+<% end %>
+
+And all of this can be efficient because each collection can define up to 40
+secondary indexes:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+  @nyc.create_index('from_user') 
+<% end %>
+
+
+h3. <strong>3. Binary Storage</strong>
+
+What if we want to store images, videos, or music? MongoDB stores arbitrary
+binary data, too. 
+
+This code goes through our collection of tweets, fetches the user's profile
+image, and saves it with the GridFS store (i.e., MongoDB's specification for storing
+larger binary objects).
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+@nyc.find.each do |tweet|
+  filename = tweet['from_user'].downcase + ".jpg"
+  next if GridStore.exist?(@db, filename)
+ 
+  GridStore.open @db, filename, 'w+' do |file|
+    data = open(tweet['profile_image_url']).read
+    file.content_type = 'image/jpeg'
+    file.puts data
+  end
+end
+<% end %>
+
+If we want to serve those images with sinatra:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+get '/images/:id' do
+  content_type "image/jpeg"
+  filename = params[:id].downcase + ".jpg"
+  GridStore.read(DB, filename)
+end
+<% end %>
+
+
+h3. <strong>A long three minutes</strong>
+
+All this is to say nothing of production case studies, performance, or paths
+to scalability.
