@@ -44,7 +44,7 @@ h1 a:hover, h1 a:active {
 }
 
 a, a:visited, a:link { 
-  padding: 0.2em 0em;
+  padding: 0.2em 0.1em;
   color: <%= @page.color['link'] %>; 
   text-decoration: none;
 }
@@ -210,6 +210,7 @@ p.title {
  * --------------------------------------------------------------------- */
 #about {
   margin-top:1em;
+  font-size: 1.2em;
 }
 /* Archive Classes
  * --------------------------------------------------------------------- */
