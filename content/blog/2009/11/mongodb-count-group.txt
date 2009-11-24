@@ -1,0 +1,154 @@
+--- 
+title:      "MongoDB Aggregation I: Counting and Grouping"
+desc:       The basics of count(), distinct(), and group().
+keywords:   mongodb, javascript, ruby, count, distinct, group, aggretation, sum
+created_at: 2009-11-22 23:47:34.867789 -05:00
+blog_post:  true
+comments: true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+MongoDB provides some powerful aggregation functions. This is the first in a
+series of articles detailing the syntax, patterns, and use cases for these
+functions. Here, as an introduction, we cover the basics of <b>count()</b>, <b>distinct()</b>, and <b>group()</b>.
+
+h3. <strong>Count</strong>
+
+<b>count()</b> simply returns the number of documents in a collection. 
+
+Suppose we have a collection where each document represents a pageview. We can
+get the total number of pageviews like so:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Javascript
+db.pageviews.count()
+<% end %>
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+# Ruby
+@db['pageviews'].count
+<% end %>
+
+Admittedly more useful would be the number of pageviews from a given month:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Javascript
+db.pageviews.count({date: 
+  {'$gte': new Date("Nov 1, 2009"), '$lt': new Date("Dec 1, 2009")}})
+<% end %>
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+# Ruby
+@db['pageviews'].count({:date => 
+          {'$gte' => Time.utc(2009, 11), '$lt' => Time.utc(2009, 12)}})
+<% end %>
+
+Notice that we've passed a document selector to the <b>count() </b> method.
+This ensures that only documents matching the selector are included in the total.
+
+h3. <strong>Distinct</strong>
+
+Another simple but useful aggregator is <b>distinct()</b>, which returns an
+array of unique values for a given key in a collection. We can specify a
+root-level key or a nested key. Here, we request unique ip-addresses and user agents: 
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Javascript
+db.pageviews.distinct('ip-address')
+db.pageviews.distinct({'user.agent'})
+<% end %>
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+# Ruby
+@db['pageviews'].distinct('ip-address')
+@db['pageviews'].distinct('user.agent')
+<% end %>
+
+h3. <strong>Group</strong>
+
+MongoDB's <b>group()</b> command provides some of the same functionality as
+SQL's GROUP BY, although the syntax is rather different. Like most database
+commands, <b>group()</b> takes a document whose keys designate the parameters
+of the operation: 
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Group by user-agent, returning a sum for each user-agent.
+db.pageviews.group(
+{
+ key: {'user.agent': true}, 
+ initial: {sum: 0}, 
+ reduce: function(doc, prev) { prev.sum += 1}
+});
+
+// Returns (Note: simplified)
+[
+  {
+    'user.agent': 'Mozilla 5.0 / Gecko'
+    'sum': 241
+  },
+  {
+    'user.agent': 'Mozilla 5.0 / Webkit' 
+    'sum': 79
+  }
+]
+<% end %>
+
+Looking at the command itself, the first parameter is clear enough:
+<b>key</b> specifies which key or keys to group by.
+
+The next two parameters, <b>initial</b> and <b>reduce</b>, may be less
+familiar. Their use is analgous to most programming language implementations of
+<b>inject</b>.
+
+With <b>initial</b>, we provide a base, aggregator document for each grouped
+result. Here, we're just saying that the base document should contain one key,
+<b>sum</b>, having a value of 0.
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Initial, aggregator document
+{sum: 0}
+<% end %>
+
+The reduce function take two parameters: 1) the current document being
+processed, and 2) the document we're aggregating over (which starts out as the <b>initial</b> document described above).
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Reduce function
+function(doc, prev) {
+  prev.sum += 1;
+}
+<% end %>
+
+In this simple case, we don't even use the doc paramater; we just 
+increment our initial document's <b>sum</b> key. Since a new document is used
+for each grouping, the <b>group()</b> function returns all those documents as
+an array, adding any keys we're grouping by, so that we're given a result like this:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Result (Note: simplified)
+[
+  {
+    'user.agent': 'Mozilla 5.0 / Gecko'
+    'sum': 241
+  },
+  {
+    'user.agent': 'Mozilla 5.0 / Webkit' 
+    'sum': 79
+  }
+]
+<% end %>
+
+The command we've been describing could run from Ruby as follows:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+# Group from Ruby
+@db['pageviews'].group(['user.agent'], nil, 
+  "function(doc, prev) { prev.sum += 1}")
+<% end %>
+
+With the second parameter, here <b>nil</b>, we can provide a query selector, so
+that <b>group()</b> will only operate over a certain subset of the collection.
+In the next installment, we'll explore that along with some of <b>group()</b>'s more advanced features.
+
+In the meantime, fire the up the "MongoDB shell":http://www.mongodb.org/display/DOCS/mongo+-+The+Interactive+Shell, experiment with some of these
+function, and don't hesitate to "consult the docs":http://www.mongodb.org/display/DOCS/Aggregation.
