@@ -40,8 +40,8 @@ db.pageviews.count({date:
 <% end %>
 <% uv :lang => "ruby", :theme => "twilight" do -%>
 # Ruby
-@db['pageviews'].count({:date => 
-          {'$gte' => Time.utc(2009, 11), '$lt' => Time.utc(2009, 12)}})
+@db['pageviews'].find({:date => 
+  {'$gte' => Time.utc(2009, 11), '$lt' => Time.utc(2009, 12)}}).count
 <% end %>
 
 Notice that we've passed a document selector to the <b>count() </b> method.
@@ -119,7 +119,7 @@ function(doc, prev) {
 }
 <% end %>
 
-In this simple case, we don't even use the doc paramater; we just 
+In this simple case, we don't even use the doc parameter; we just 
 increment our initial document's <b>sum</b> key. Since a new document is used
 for each grouping, the <b>group()</b> function returns all those documents as
 an array, adding any keys we're grouping by, so that we're given a result like this:
@@ -138,7 +138,7 @@ an array, adding any keys we're grouping by, so that we're given a result like t
 ]
 <% end %>
 
-The command we've been describing could run from Ruby as follows:
+The command we've been describing could be run from Ruby as follows:
 
 <% uv :lang => "ruby", :theme => "twilight" do -%>
 # Group from Ruby
@@ -151,4 +151,4 @@ that <b>group()</b> will only operate over a certain subset of the collection.
 In the next installment, we'll explore that along with some of <b>group()</b>'s more advanced features.
 
 In the meantime, fire the up the "MongoDB shell":http://www.mongodb.org/display/DOCS/mongo+-+The+Interactive+Shell, experiment with some of these
-function, and don't hesitate to "consult the docs":http://www.mongodb.org/display/DOCS/Aggregation.
+functions, and don't hesitate to "consult the docs":http://www.mongodb.org/display/DOCS/Aggregation.
