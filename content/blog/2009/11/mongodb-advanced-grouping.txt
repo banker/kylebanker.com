@@ -1,0 +1,43 @@
+--- 
+title:      MongoDB Aggregation II: Advanced Grouping
+desc:       description 
+keywords:   keywords
+created_at: 2009-11-30 09:40:18.005249 -05:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+h3. <strong>Sums</strong>
+
+Let's assume we're hosting a social news application containing a collection of comments. A comment document might look like this:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+# Comment document
+{ :id         => 'fcfa23342'
+  :user_id    => 'a0fb00004',
+  :text       => 'mongodb be so funky',
+  :upvotes    => 12
+  :downvotes  => 4
+  :upvoters   => ['a0fb00004', 'a0fb00005', ...]
+  :downvoters => ['a0fb00000', 'a0fb00001', ...]
+}
+<% end %>
+
+We might want to know which user have garnered the greatest number of upvotes and downvotes. With <strong>group()</strong>, this is straightforward. Our results will include upvote and downvote totals, so our initial document will need these fields:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Initial, aggregator document
+{upvote_total => 0}
+{downvote_total => 0}
+<% end %>
+
+Next, we need a reduce function that adds to 
+
+
+
+
+
+

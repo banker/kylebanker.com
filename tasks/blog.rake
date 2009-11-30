@@ -1,3 +1,7 @@
+Loquacious.configuration_for(:webby) {
+  desc "The default directory where new blog posts will be created."
+  blog_dir 'blog'
+}
 
 namespace :blog do
 
@@ -15,12 +19,12 @@ namespace :blog do
       # if no directory was given use the default blog directory (underneath
       # the content directory)
       dir = Webby.site.blog_dir if dir.empty?
-      dir = File.join(dir, Time.now.strftime('%Y/%m'))
+      dir = File.join(dir, Time.now.strftime('%Y/%m/%d'))
 
       page = File.join(dir, File.basename(page))
       page = Webby::Builder.create(page, :from => template,
                  :locals => {:title => title, :directory => dir})
-      exec(::Webby.editor, page) unless ::Webby.editor.nil?
+      Webby.exec_editor(page)
     end
   end  # each
 
