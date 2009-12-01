@@ -75,7 +75,7 @@ db.comments.group({
 As expected, this returns an array of documents with the totals we sought:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
-// In the MongoDB JS shell:
+// Result of group()
 [
   {
     "user_id"   : "a0fc46004",
@@ -99,16 +99,16 @@ tempted to limit our results by modifying the reduce function:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
 // Reduce function, totaling comments from 2009
-var voteAdder = function(doc, prev) {
+var voteAdderWithFilter = function(doc, prev) {
   var startDate = new Date(2009, 0).getTime();
-  if(doc.created_at.getTime() > startDate.getTime()) {
+  if(doc.created_at.getTime() > startDate) {
     prev.upvote_total  += doc.upvotes;
     prev.downvote_tota += doc.downvotes;
   }
 }
 <% end %>
 
-This gets us our totals, albeit inefficinetly. The better route is to specify a query
+This gets us our totals, albeit inefficiently. The better route is to specify a query
 filter. That way, we can take advantage of MongoDB's query engine and any indexes 
 we may have declared. So we add a <strong>cond:</strong> key to
 <strong>group()</strong>, passing in a document selector like we might pass to
@@ -135,13 +135,13 @@ number of votes per user, or perhaps we need to extract a weighted score. Enter
 Sounds foreboding. 
 
 But it's just an arbitrary function. It receives each of our result documents and performs whatever
-operations we wish:
+operations we wish on them:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
 // A finalizer for averaging votes and calculating a score
 var finalizer = function(doc) {
   doc.average_upvotes = doc.upvotes / doc.count;
-  doc.score = (0.8 * doc.upvotes) - (0.2 * downvotes);
+  doc.score = (0.8 * doc.upvotes) - (0.2 * doc.downvotes);
 }
 <% end %>
 
@@ -161,7 +161,7 @@ db.comments.group({
 And the richer our results become:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
-// In the MongoDB JS shell:
+// group() results, enriched with a finalizer
 [
   {
     "user_id"   : "a0fc46004",
@@ -189,7 +189,7 @@ sleeves (right?!). Because you might not want to group by any of the available
 keys in your documents, there's the <strong>keyf</strong> option. You pass it a
 function that returns a document to group by.
 
-This actually makes a load of sense. You may want to group users by last name:
+This actually makes loads of sense. You may want to group users by last name:
 A-F, G-L, etc. Or what if you want to arrange pageviews by month, or week, or hour.
 If you haven't cached these values, this isn't so easy to do. But with a
 <strong>keyf</strong>unction, you've got it made.
