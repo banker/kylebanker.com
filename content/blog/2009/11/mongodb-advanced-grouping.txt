@@ -1,18 +1,27 @@
 --- 
-title:      MongoDB Aggregation II: Advanced Grouping
-desc:       description 
-keywords:   keywords
+title:      "MongoDB Aggregation II: Grouping Elaborated"
+desc:       Ever deeper into the wonders of group().
+keywords:   mongodb, group, aggregation, javascript, reduce
 created_at: 2009-11-30 09:40:18.005249 -05:00
 blog_post:  true
 layout: blog
+comments: true
 filter:
 - erb
 - textile
 --- 
 
-h3. <strong>Sums</strong>
+This is the second in a series of articles on MongoDB's aggregation functions.
+In the "first installment":http://kylebanker.com/blog/2009/11/mongodb-count-group/, 
+we looked at <strong>count()</strong>,
+<strong>distinct()</strong>, and some of the basics of
+<strong>group()</strong>. But <strong>group()</strong> is rather a beast, so
+here we take an extended example, and look at two deep features: finalizers and
+key functions.
 
-Let's assume we're hosting a social news application containing a collection of comments. A comment document might look like this:
+h3. <strong>Counting and Sums</strong>
+
+Let's assume we're hosting a social news application with a collection of comments. A comment document might look like this:
 
 <% uv :lang => "ruby", :theme => "twilight" do -%>
 # Comment document
@@ -26,18 +35,207 @@ Let's assume we're hosting a social news application containing a collection of 
 }
 <% end %>
 
-We might want to know which user have garnered the greatest number of upvotes and downvotes. With <strong>group()</strong>, this is straightforward. Our results will include upvote and downvote totals, so our initial document will need these fields:
+Now, we want to know which users have garnered the greatest number of upvotes
+and downvotes. With <strong>group()</strong>, this is straightforward. Our
+results will include totals for upvotes and downvotes, with a running total
+counting each comment. Hence, our initial document has three keys:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
-// Initial, aggregator document
-{upvote_total => 0}
-{downvote_total => 0}
+// Initial, aggregator document (in JavaScript)
+var setupDoc = {
+  upvote_total: 0,
+  downvote_total: 0,
+  count: 0
+}
 <% end %>
 
-Next, we need a reduce function that adds to 
+Next, we need a reduce function that adds to these totals:
 
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Reduce function (in JavaScript)
+var voteAdder = function(doc, prev) {
+  prev.upvote_total   += doc.upvotes;
+  prev.downvote_tota  += doc.downvotes;
+  prev.count          += 1;
+}
+<% end %>
 
+Finally, we pass these to <strong>group()</strong>, specifying
+<strong>user_id</strong> as the key to group by:
 
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// In the MongoDB JS shell:
+db.comments.group({
+  key:     {user_id: true},
+  initial:  setupDoc,
+  reduce:   voteAdder
+});
+<% end %>
 
+As expected, this returns an array of documents with the totals we sought:
 
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// In the MongoDB JS shell:
+[
+  {
+    "user_id"   : "a0fc46004",
+    "uptotal"   : 24,
+    "downtotal" : 30,
+    "count"     : 2
+  },
+  { 
+    "user_id"   : "a0fc46005",
+    "uptotal"   : 68,
+    "downtotal" : 3,
+    "count"     : 3
+  }
+]
+<% end %>
 
+h3. <strong>Limiting</strong>
+
+If we don't need totals for the entire collection of comments, we might be
+tempted to limit our results by modifying the reduce function:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Reduce function, totaling comments from 2009
+var voteAdder = function(doc, prev) {
+  var startDate = new Date(2009, 0).getTime();
+  if(doc.created_at.getTime() > startDate.getTime()) {
+    prev.upvote_total  += doc.upvotes;
+    prev.downvote_tota += doc.downvotes;
+  }
+}
+<% end %>
+
+This gets us our totals, albeit inefficinetly. The better route is to specify a query
+filter. That way, we can take advantage of MongoDB's query engine and any indexes 
+we may have declared. So we add a <strong>cond:</strong> key to
+<strong>group()</strong>, passing in a document selector like we might pass to
+<strong>find()</strong>:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// group(), with a query condition
+db.comments.group({
+  key:     {user_id: true},
+  initial:  setupDoc,
+  reduce:   voteAdder,
+  cond:    {created_at: {"$gte": new Date(2009, 0)}}
+});
+<% end %>
+
+This will assure that our groupings only include comments from 2009.
+
+h3. <strong>The Finalizer</strong>
+
+But what if counting and summing aren't enough? Maybe we need the average
+number of votes per user, or perhaps we need to extract a weighted score. Enter
+<strong>the finalizer</strong>. 
+
+Sounds foreboding. 
+
+But it's just an arbitrary function. It receives each of our result documents and performs whatever
+operations we wish:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// A finalizer for averaging votes and calculating a score
+var finalizer = function(doc) {
+  doc.average_upvotes = doc.upvotes / doc.count;
+  doc.score = (0.8 * doc.upvotes) - (0.2 * downvotes);
+}
+<% end %>
+
+Run <strong>group()</strong> again, this time specifying the finalizer:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// group(), with a query condition and finalizer
+db.comments.group({
+  key:     {user_id: true},
+  initial:  setupDoc,
+  reduce:   voteAdder,
+  cond:    {created_at: {"$gte": new Date(2009, 0)}},
+  finalize: finalizer
+});
+<% end %>
+
+And the richer our results become:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// In the MongoDB JS shell:
+[
+  {
+    "user_id"   : "a0fc46004",
+    "uptotal"   : 24,
+    "downtotal" : 30,
+    "count"     : 2
+    "average_upvotes": 12,
+    "score"          : 13.2
+  },
+  { 
+    "user_id"   : "a0fc46005",
+    "uptotal"   : 68,
+    "downtotal" : 3,
+    "count"     : 3
+    "average_upvotes": 22.667,
+    "score"          : 53.8
+  }
+]
+<% end %>
+
+h3. <strong>But wait!</strong>
+
+MongoDB's <strong>group()</strong> function has yet another trick up its
+sleeves (right?!). Because you might not want to group by any of the available
+keys in your documents, there's the <strong>keyf</strong> option. You pass it a
+function that returns a document to group by.
+
+This actually makes a load of sense. You may want to group users by last name:
+A-F, G-L, etc. Or what if you want to arrange pageviews by month, or week, or hour.
+If you haven't cached these values, this isn't so easy to do. But with a
+<strong>keyf</strong>unction, you've got it made.
+
+So, to take an arbitrary but potentially interesting example, what if we
+decided to group our comments by length? We could define our
+comments as short (< 10 words), medium (between 10 and 50 words), 
+and long (> 50 words), and see if any correlation between comment length
+and votes exists.
+
+Can you see how our <strong>keyf</strong> function would look?
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// A key function for grouping comments as short, medium, and long
+var commentLength = function(comment) {
+  var length = comment.text.split(' ').length;
+  if(length < 10) {
+    return {short: true};
+  else if(length >= 10 && length <= 50) {
+    return {medium: true};
+  else
+    return {large: true};
+}
+<% end %>
+
+Then, just replace <strong>key</strong> with <strong>keyf</strong>:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// group(), with a query condition and finalizer
+db.comments.group({
+  keyf:     commentLength,
+  initial:  setupDoc,
+  reduce:   voteAdder,
+  cond:    {created_at: {"$gte": new Date(2009, 0)}},
+  finalize: finalizer
+});
+<% end %>
+
+<strong>keyf</strong> allows us to group our data in many a sane and zany
+way. Exploring that range of possibility is left as an exercise to the reader.
+
+h3. <strong>Et, violà</strong>
+
+So, that is indeed the gamut of <strong>group()</strong> as of MongoDB 1.1.4.
+Please feel free to drop a note on how you're using it in your apps.
+
+In the next article, I'll present the not-so-widely-understood
+<strong>map/reduce</strong>, distinguishing the MongoDB version from that of
+other databases, and showing just what's so useful about it.
