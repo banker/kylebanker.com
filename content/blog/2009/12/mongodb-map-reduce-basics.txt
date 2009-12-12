@@ -1,0 +1,151 @@
+--- 
+title:      "MongoDB Aggregation III: Map-Reduce Basics"
+desc:       An introduction to map-reduce in MongoDB. 
+keywords:   mongodb, map, reduce, mapreduce, aggregation
+created_at: 2009-12-12 12:15:17.922431 -05:00
+blog_post:  true
+layout: blog
+comments: true
+filter:
+- erb
+- textile
+--- 
+
+If you're accustomed to working with relational databases, the thought of
+specifying aggregations with map-reduce may be a bit intimidating. Here, in the
+third in "a series of articles on MongoDB aggregation":http://localhost:4331/blog/2009/11/mongodb-count-group/, I explain map-reduce.
+After reading this, and with a little practice, you'll be able to apply the
+map-reduce paradigm to a huge number of aggregation problems.
+
+h3. <strong>A comments example, of course</strong>
+
+Let's start with an example. Suppose we have a collection of comments with the following document structure:
+
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+{ text: "lmao! great article!",
+  author: 'kbanker',
+  votes: 2
+}
+<% end %>
+
+Here we have a comment authored by 'kbanker' with two votes. Now, we want to find the total number of votes each comment author has earned across the entire comment collection. It's a problem easily solved with map-reduce.
+
+h3. <strong>Mapping</strong>
+
+As its name suggests, map-reduce essentially involves two operations. The
+first, specified by our *map* function, formats our data as a series of
+key-value pairs. Our key is the comment author's name (this makes sense only if
+this username is unique). Our value is a document containing the number of
+votes. We generate these key-value pairs by *emitting* them. See below:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Our key is author's userame; 
+// our value, the number of votes for the current comment.
+var map = function() {
+  emit(this.author, {votes: this.votes});
+};
+<% end %>
+
+When we run map-reduce, the *map* function is applied to each document. This
+results in a collection of key-value pairs. What do we do with these results?
+It turns out that we don't even have to think about them because they're
+automatically passed on to our *reduce* function.
+
+h3. <strong>Reducing</strong>
+
+Specifically, the *reduce* function will be invoked with two arguments: a key
+and an array of values associated with that key. Returning to our example, we
+can imagine our *reduce* function receiving something like this:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+reduce('kbanker', [{votes: 2}, {votes: 1}, {votes: 4}]);
+<% end %>
+
+Given that, it's easy to come up with a reduce function for tallying these votes:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Add up all the votes for each key.
+var reduce = function(key, values) {
+  var sum = 0;
+  values.forEach(function(doc) {
+    sum += doc.votes;
+  });
+  return {votes: sum};
+};
+<% end %>
+
+h3. <strong>Results</strong>
+
+So how do we we run it? From the shell, we pass our map and reduce functions to the mapReduce helper:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Running mapReduce.
+var op = db.comments.mapReduce(map, reduce);
+
+{
+  "result" : "tmp.mr.mapreduce_1260567078_11",
+  "timeMillis" : 8,
+  "counts" : {
+  "input" : 6,
+    "emit" : 6,
+    "output" : 2
+  },
+  "ok" : 1,
+}
+<% end %>
+
+
+Notice that running the mapReduce helper returns *stats on the operation*; the
+results of the operation itself are stored in a temporary collection. In this
+case, that collection is *tmp.mr.mapreduce_1260567078_11*.
+
+The other stats also prove informative. First is the operation time in
+milliseconds. Next are the number of input documents, the number of times we
+called emit (this can be more than once per document), and the number of output
+documents. Finally, we can be assured that the operation has succeeded because "ok" is 1.
+
+Of course, what we really want are the results. To get them, just query the output collection:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+// Getting the results from the shell
+db[op.result].find();
+
+{ "_id" : "hwaet", "value" : { "votes" : 21 } }
+{ "_id" : "kbanker", "value" : { "votes" : 13 } }
+<% end %>
+
+h3. <strong>How do I execute map-reduce from Ruby?</strong>
+
+Like this:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+# Running map-reduce from Ruby (irb) assuming
+# that @comments references the comments collection
+
+# Specify the map and reduce functions in JavaScript, as strings
+>> map    = "function() { emit(this.author, {votes: this.votes}); }"
+>> reduce = "function(key, values) { " +
+  "var sum = 0; " +
+  "values.forEach(function(doc) { " +
+  " sum += doc.votes; " +
+  "}); " +
+  "return {votes: sum}; " +
+"};"
+
+# Pass those to the map_reduce helper method
+@results = @comments.map_reduce(map, result)
+
+# Since this method returns an instantiated results collection,
+# we just have to query that collection and iterate over the cursor.
+>> @results.find().to_a
+=> [{"_id"="hwaet", "value"=>{"votes"=>21.0}}, 
+    {"_id"=>"kbanker", "value"=>{"votes"=>13.0}}
+   ]
+<% end %>
+
+
+h3. <strong>Practice</strong>
+
+If you've followed along, you should understand the basics of map-reduce in
+MongoDB. For all the details on options, "see the docs":http://www.mongodb.org/display/DOCS/MapReduce. For extra practice, fire up the MongoDB shell and experiment away.

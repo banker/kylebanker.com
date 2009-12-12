@@ -11,9 +11,15 @@ filter:
 - textile
 --- 
 
-MongoDB provides some powerful aggregation functions. This is the first in a
-series of articles detailing the syntax, patterns, and use cases for these
-functions. Here, as an introduction, we cover the basics of <b>count()</b>, <b>distinct()</b>, and <b>group()</b>.
+This is the first in a series of articles detailing the syntax, patterns, and
+use cases for MongoDB's aggregation functions:
+
+# Counting and Grouping
+# "Grouping Elaborated":http://kylebanker.com/blog/2009/11/mongodb-advanced-grouping/
+# "Map-reduce Basics":http://localhost:4331/blog/2009/12/mongodb-map-reduce-basics/
+
+
+Here, as an introduction, we cover the basics of <b>count()</b>, <b>distinct()</b>, and <b>group()</b>.  
 
 h3. <strong>Count</strong>
 
@@ -142,13 +148,13 @@ The command we've been describing could be run from Ruby as follows:
 
 <% uv :lang => "ruby", :theme => "twilight" do -%>
 # Group from Ruby
-@db['pageviews'].group(['user.agent'], nil, 
+@db['pageviews'].group(['user.agent'], nil, {'sum' => 0},
   "function(doc, prev) { prev.sum += 1}")
 <% end %>
 
 With the second parameter, here <b>nil</b>, we can provide a query selector, so
 that <b>group()</b> will only operate over a certain subset of the collection.
-In the next installment, we'll explore that along with some of <b>group()</b>'s more advanced features.
+In the "next installment":http://kylebanker.com/blog/2009/11/mongodb-advanced-grouping/, we explore that along with some of <b>group()</b>'s more advanced features.
 
 In the meantime, fire the up the "MongoDB shell":http://www.mongodb.org/display/DOCS/mongo+-+The+Interactive+Shell, experiment with some of these
 functions, and don't hesitate to "consult the docs":http://www.mongodb.org/display/DOCS/Aggregation.

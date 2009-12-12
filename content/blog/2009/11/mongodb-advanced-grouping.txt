@@ -236,6 +236,6 @@ h3. <strong>Et, violà</strong>
 So, that is indeed the gamut of <strong>group()</strong> as of MongoDB 1.1.4.
 Please feel free to drop a note on how you're using it in your apps.
 
-In the next article, I'll present the not-so-widely-understood
-<strong>map/reduce</strong>, distinguishing the MongoDB version from that of
-other databases, and showing just what's so useful about it.
+In the next article, I present the basics of the not-so-widely-understood
+"map-reduce":http://kylebanker.com/blog/2009/12/mongodb-map-reduce-basics/.
+Curious? "Read on...":http://kylebanker.com/blog/2009/12/mongodb-map-reduce-basics/
