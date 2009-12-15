@@ -63,7 +63,7 @@ filter:    erb
      <p>licensed under the <a
      href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/">creative
      commons</a>. share and <a
-     href="http://localhost:4331/blog/feed.xml">subscribe</a> freely.
+     href="/blog/feed.xml">subscribe</a> freely.
    </div>
 
 </div>
