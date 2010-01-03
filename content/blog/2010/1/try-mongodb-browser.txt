@@ -1,0 +1,22 @@
+--- 
+title:      Try MongoDB
+desc:       A basic MongoDB shell for the browser, with tutorial.
+keywords:   mongodb, try mongodb, mongodb shell, mongodb tutorial
+created_at: 2010-01-02 12:15:17.922431 -05:00
+blog_post:  true
+layout: blog
+comments: true
+filter:
+- erb
+- textile
+---
+
+Want to <a href="http://mongo.kylebanker.com">try MongoDB in your browser</a>? Just deployed this a few days ago:
+
+<div class="clear"><a class="image" href="http://mongo.kylebanker.com"><img width="640px" src="/assets/content/2010/try-mongo-screenshot.png" alt="Try MongoDB Screenshot" title="Try MongoDB"></a></div>
+
+One of the nice things about MongoDB's JavaScript shell is that we can run a variation on it directly in the browser. It doesn't provide near the functionality of the actual shell, but users can still get a feel for CRUD in MongoDB, and it's possible to use any of the nifty <a href="http://www.mongodb.org/display/DOCS/Advanced+Queries">query</a> and <a href="http://www.mongodb.org/display/DOCS/Atomic+Operations#AtomicOperations-Modifieroperations">update operators</a>.
+
+Anyone who'd like to contribute can fork <a href="http://github.com/banker/mongulator">the code on github</a>.
+
+(Almost forgot to mention that this is indeed inspired by, and is a little homage to, <a href="http://en.wikipedia.org/wiki/Why_the_lucky_stiff">the great _why</a>.)
