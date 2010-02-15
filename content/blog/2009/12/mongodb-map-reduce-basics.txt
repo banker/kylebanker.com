@@ -13,7 +13,7 @@ filter:
 
 If you're accustomed to working with relational databases, the thought of
 specifying aggregations with map-reduce may be a bit intimidating. Here, in the
-third in "a series of articles on MongoDB aggregation":http://localhost:4331/blog/2009/11/mongodb-count-group/, I explain map-reduce.
+third in "a series of articles on MongoDB aggregation":http://kylebanker.com/blog/2009/11/mongodb-count-group/, I explain map-reduce.
 After reading this, and with a little practice, you'll be able to apply the
 map-reduce paradigm to a huge number of aggregation problems.
 

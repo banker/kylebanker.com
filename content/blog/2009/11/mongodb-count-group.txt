@@ -16,7 +16,7 @@ use cases for MongoDB's aggregation functions:
 
 # Counting and Grouping
 # "Grouping Elaborated":http://kylebanker.com/blog/2009/11/mongodb-advanced-grouping/
-# "Map-reduce Basics":http://localhost:4331/blog/2009/12/mongodb-map-reduce-basics/
+# "Map-reduce Basics":http://kylebanker.com/blog/2009/12/mongodb-map-reduce-basics/
 
 
 Here, as an introduction, we cover the basics of <b>count()</b>, <b>distinct()</b>, and <b>group()</b>.  
