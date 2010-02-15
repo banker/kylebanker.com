@@ -9,12 +9,12 @@ body {
 h1 {
   margin: 20px;
   font-weight: normal;
-  font-size: 0em;
+  font-size: 5em;
   text-align: center;
 }
 
 a {
-  padding: 2px;
+  padding: 2px 3px;
   background: #2B3F3F;
   color: white;
   text-decoration:none;
@@ -32,6 +32,5 @@ a:hover {
 #links {
   margin-top: 50px;
   text-align: center;
-  font-size: 0em;
-  display:none;
+  font-size: 3em;
 }

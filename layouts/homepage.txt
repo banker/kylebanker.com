@@ -13,8 +13,6 @@ filter:    erb
   <meta name="keywords" content="kyle banker, ruby, rails" />
   <link rel="shortcut icon" href="favicon.ico" />
   <link rel="stylesheet" href="/assets/css/homepage.css" type="text/css">
-  <script src="/assets/js/jquery.js" type="text/javascript" charset="utf-8"></script>
-  <script src="/assets/js/bank.js" type="text/javascript" charset="utf-8"></script>
 </head>
 
   <body>
