@@ -1,0 +1,99 @@
+--- 
+title:      Do the MongoDB Drivers Support Feature <i>X</i>?
+desc:       How the MongoDB drivers automatically support new features.
+keywords:   mongodb, ruby, findAndModify command, $addToSet, mongodb indexes
+created_at: 2010-03-28 14:56:45.094526 -04:00
+blog_post:  true
+layout: blog
+comments: true
+filter:
+- erb
+- textile
+--- 
+
+With MongoDB's aggressive roadmap, new features are constantly being added. Notable in the "1.4 release":http://www.mongodb.org/display/DOCS/1.4+Release+Notes are the "$addToSet update operator":http://www.mongodb.org/display/DOCS/Updating#Updating-%24addToSet, the "findAndModify command":http://www.mongodb.org/display/DOCS/findandmodify+Command, and "indexes supporting two-dimensional coordinates":http://www.mongodb.org/display/DOCS/Geospatial+Indexing. Usually the first question from users is whether their driver supports the new features. Happily, the answer is almost always yes; in this post, I explain why that is so.
+
+New MongoDB features, not counting the many internal improvements, usually fit into one of three categories. Either we're dealing with a new query or update operator, a new database command, or an indexing enhancement. We'll look at each of these in turn, and show how it is that the drivers can immediately support these types of new features.
+
+h3. <strong>Query and Update Operators</strong>
+
+MongoDB 1.4 features an $addToSet update operator, which pushes an item onto an array only if that item doesn't yet exist in the array. If we want to uniquely add a tag to an existing array of tags, the following code will work:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+@posts.update({'slug' => 'mongodb-in-ruby'},
+  {'$addToSet' => {'tags' => 'technology'}})
+<% end %>
+
+This update will succeed only if the <i>tags</i> array doesn't contain the term 'technology.' 
+
+Nothing in the driver has to change to support this new feature. This is because the documents sent to the <i>update</i> method are translated directly into BSON and sent to the MongoDB server. Since there's no driver intervention, new update and query operators are automatically supported.
+
+h3. <strong>Database Commands</strong>
+
+Another new 1.4 feature is the findAndModify command. findAndModify is used to update a document atomically and immediately return it. The is useful for implementing queues. For instance, suppose we want to grab the latest item from a queue and mark it as being in progress. First, we need to construct the parameters of the command:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+command = OrderedHash.new
+
+# The 'findAndModify' key reference the name of the collection.
+command['findAndModify'] = 'jobs'
+
+# The 'query' filters the collection; here we only want 'new' items.
+command['query'] = {'state' => 'new'}
+
+# The sort order in this case allows us to fetch the oldest, unprocessed item.
+command['sort'] = {'created_at' => -1}
+
+# Here we specify the update we want,
+# which is to mark the object as being in progress
+command['update'] = {'$set' => {'state' => 'processing'}}
+<% end %>
+
+Once we've constructed the command, we send it to the database's command method, which all the drivers implement:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+# Send the command we just specified.
+result = @db.command(command)
+<% end %>
+
+Straightforward enough. But to see what's really happening here, have a look at another way of accomplishing the same thing:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+@cmd_collection = @db['$cmd']
+
+result = @cmd_collection.find(command).limit(-1).next_document
+<% end %>
+
+Do you see how it works? We're simply querying a special collection called <i>$cmd</i>. The limit of -1 indicates that we don't want to create a cursor on the server. Since database commands are nothing more than queries on the <i>$cmd</i> collection, the drivers will always support new commands right away.
+
+Note that some commands need to be run on the admin database. For instance, the new <i>logrotate</i> command falls into this category. But most commands are run on whichever database your application is using. Have a look a the "list of database commands":http://www.mongodb.org/display/DOCS/List+of+Database+Commands for more on this, and look at the implementation of some commonly-used commands. Did you know that <i>count()</i> is actually a command? Check out the "Ruby driver's implementation":http://github.com/mongodb/mongo-ruby-driver/blob/b87e3dd3fb59906bea33150936f431b0b73d3781/lib/mongo/cursor.rb#L94 for a bit of illumination.
+
+h3. <strong>Indexing Enhancements</strong>
+
+1.4 adds support for two-dimensional indexes, and accordingly, we've added a few conveniences to the Ruby driver that simplify the creation of these indexes. If you have a <i>places</i> collection and a field called <i>loc</i> that specifies x- and y-coordinates, here's how you can create the index:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+@places = @db['places']
+@places.create_index([['loc', Mongo::GEO2D]])
+<% end %>
+
+But there's a more direct way of creating indexes: simply insert a document into the database's <i>system.indexes</i> collection. See, each database has a special collection called <i>system.indexes</i>. You can query the collection to find out which indexes have been defined, and you add and remove documents from that collection to define and delete indexes. If we were going to create the above index directly, it'd look like this:
+
+<% uv :lang => "ruby", :theme => "twilight" do -%>
+# Create a document specifying the index
+doc = {'name' => 'loc2d', 'ns' => 'myapp.places', 'key' => {'loc' => '2d'}}
+
+# Get the system.indexes collection
+@indexes = @db['system.indexes']
+
+# Insert the document
+@indexes.insert(doc)
+<% end %>
+
+The index name can be anything. The <i>ns</i> key specifies the namespace, which is the database name followed by a dot followed by the collection name. The <i>key</i> defines the index itself. Note that if you're creating a compound index, <i>key</i> should point to an ordered hash, since order in that case does matter.
+
+But that's all there is to it. If you want to explore further, look at the "Ruby implementation of Collection#create_index":http://github.com/mongodb/mongo-ruby-driver/blob/b87e3dd3fb59906bea33150936f431b0b73d3781/lib/mongo/collection.rb#L361.
+
+h3. <strong>The Answer is <i>Yes</i></strong>
+
+Next time you're wondering if the the drivers support some new MongoDB feature, ask yourself whether that new feature is new update or query operator, and new command, or an indexing enhancement. If so, the answer is an emphatic <i>yes</i>.
