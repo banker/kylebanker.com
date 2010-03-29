@@ -3,13 +3,13 @@ filter: erb
 ---
 <div id="pagination">
 <% if @pager.prev? %>
- <%= link_to("prev", @pager.prev) %> 
+ <%= link_to("newer", @pager.prev) %> 
 <% else %>
-  <span class="quiet">prev</span>
+  <span class="quiet">newer</span>
 <% end %> | 
 <% if @pager.next? %>
-  <%= link_to("next", @pager.next) if @pager.next? %>
+  <%= link_to("older", @pager.next) if @pager.next? %>
 <% else %>
-  <span class="quiet">next</span>
+  <span class="quiet">older</span>
 <% end %>  
 </div>
