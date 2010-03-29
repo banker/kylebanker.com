@@ -30,13 +30,13 @@ Nothing in the driver has to change to support this new feature. This is because
 
 h3. <strong>Database Commands</strong>
 
-Another new 1.4 feature is the findAndModify command. findAndModify is used to update a document atomically and immediately return it. The is useful for implementing queues. For instance, suppose we want to grab the latest item from a queue and mark it as being in progress. First, we need to construct the parameters of the command:
+Another new 1.4 feature is the findandmodify command. findandmodify is used to update a document atomically and immediately return it. The is useful for implementing queues. For instance, suppose we want to grab the latest item from a queue and mark it as being in progress. First, we need to construct the parameters of the command:
 
 <% uv :lang => "ruby", :theme => "twilight" do -%>
 command = OrderedHash.new
 
 # The 'findAndModify' key reference the name of the collection.
-command['findAndModify'] = 'jobs'
+command['findandmodify'] = 'jobs'
 
 # The 'query' filters the collection; here we only want 'new' items.
 command['query'] = {'state' => 'new'}
