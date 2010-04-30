@@ -19,7 +19,7 @@ desirable database for e-commerce; here's why.
 
 h2. <strong>Catalog Management</strong>
 
-If you need some insight into the ways in which catalog management is handled
+If you need some insight into the way in which catalog management is handled
 with relational databases, have a quick look at the schemas of the popular
 "Magento e-commerce framework":http://www.magentocommerce.com/wiki/development/magento_database_diagram or "Apache's OfBiz":https://cwiki.apache.org/confluence/display/OFBTECH/Data+Model+Diagrams.
 What you'll see is a flurry of tables working together to provide a flexible schema
@@ -40,9 +40,13 @@ Or issue a simple *find* from the MongoDB JavaScript shell to pull back a JSON
 object like this:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
-{title: "A Love Supreme [Original Recording Reissued]"
+// Find a product object
+db.products.find({'_id': ObjectID("4bd87bd8277d094c458d2fa5")});
+
+{_id: ObjectID("4bd87bd8277d094c458d2a43"),
+ title: "A Love Supreme [Original Recording Reissued]"
  author: "John Coltrane",
- author_id: ObjectID("4bd87bd8277d094c458d2292"),
+ author_id: ObjectID("4bd87bd8277d094c458d2fa5"),
 
  details: {
    number_of_discs: 1,
@@ -60,19 +64,18 @@ object like this:
  },
 
  category_ids: [
-   ObjectID("4bd87bd8277d094c458d2292"),
-   ObjectID("4bd87bd8277d094c458d2292"),
-   ObjectID("4bd87bd8277d094c458d2292")
+   ObjectID("4bd87bd8277d094c458d2a43"),
+   ObjectID("4bd87bd8277d094c458d2b44"),
+   ObjectID("4bd87bd8277d094c458d29a1")
  }
 }
-
 <% end %>
 
 For object-oriented data, documents make a lot more sense, both
 conceptually and performace-wise. A document-oriented representation of product
 data means fewer entities (a handful of collections vs. dozens of tables),
-better query performance (no server-side joins), and schemas that fit the product
-precisely. There's no longer a need to design some master schema that can
+better query performance (no server-side joins), and structures that fit the product
+precisely. There's no longer any need to design some master schema that can
 account for every single conceviable product.
 
 Catalog management is essentially content management, a domain MongoDB excels at.
@@ -125,8 +128,8 @@ the product in the order itself.
 h3. <strong>Querying Orders</strong>
 
 Since MongoDB supports dynamic queries and secondary indexes, querying for
-orders is a snap. Here, we define an index on product sku, which allows for
-efficient queries on all orders of a given product:
+orders is a snap. It's possible, for example, to define an index on
+product sku, which allows for efficient queries on all orders of a given product:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
 db.orders.ensureIndex({'line_items.sku': 1});
@@ -168,8 +171,8 @@ h3. <strong>Updating Orders</strong>
 
 <strong>Incrementing Quantity</strong><br/>
 One way to go about adjusting quantity is using the positional operator, which
-lets you apply atomic operation to individual objects within an array. Here,
-we're changing the quantity of Coltrane albums we want.
+lets you apply atomic operation to individual objects within an array. Here how
+we'd change the quantity of Coltrane albums we want.
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
 db.orders.update({'_id': order_id, 'line_items.sku':'jc-431'},
@@ -177,8 +180,9 @@ db.orders.update({'_id': order_id, 'line_items.sku':'jc-431'},
 <% end %>
 
 <strong>Adding and Removing Items</strong><br/>
-Likewise, atomic operators solve the problem of adding and removing products from the cart
-For instace, we could use the *$push$ atomic operator to add an item to our cart:
+Likewise, atomic operators solve the problem of adding and removing products
+from the cart. For instace, we could use the *$push$ atomic operator to add an
+item to our cart:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
 db.orders.update({'_id': order_id},
@@ -250,18 +254,17 @@ Concerning transactions, it is true that MongoDB doesn't support multi-object
 transactions; however, it does support atomic operations on individual documents. And
 this, combined with the document-oriented modeling just described and a little
 creativity, is adequate to many e-commerce problems. Certainly, if we needed to
-literally debit one account and credit another in the same operation, we'd need
-full-fledged transaction. But most e-commerce situations don't require that.
+literally debit one account and credit another in the same operation, or if we
+wanted rollback, we'd need full-fledged transactions. But plenty e-commerce situations
+don't require that.
 
-A second important point here is that an API call to authorize a credit card
-cannot happen in the scope of a transaction, and yet every e-commerce site
-manages this situation. Users often speak of transactions as if they're sacrosanct,
-and yet it's possible to handle one of the core activities of an
-<nobr>e-commerce</nobr> site without them.
+If you're concerned about consistency and durability, know that write
+operations in MongoDB are consistent across connections. Furthermore, a new
+feature in MongoDB.
 
 h2. <strong>Conclusion</strong>
 
-Certainly, most NoSQL database weren't build with <nobr>e-commerce</nobr> in
+Certainly, most NoSQL databases weren't built with <nobr>e-commerce</nobr> in
 mind. Databases that lack rich data models, dynamic queries, and any notion of
 transactionality can't be expected to compete in the <nobr>e-commerce</nobr>
 space, and it's understandable how one might think that MongoDB couln't, either.
