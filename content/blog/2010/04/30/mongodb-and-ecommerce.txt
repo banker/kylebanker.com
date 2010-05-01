@@ -1,9 +1,10 @@
 --- 
 title:      MongoDB and E-commerce
-desc:       description
-keywords:   keywords
+desc:       Righting some misconceptions on MongoDB in e-commerce.
+keywords:   nosql, mongodb, e-commerce, transactions, inventory
 created_at: 2010-04-30 13:20:45.692078 -04:00
 blog_post:  true
+comments: true
 layout: blog
 filter:
 - erb
@@ -11,17 +12,21 @@ filter:
 --- 
 
 There are still a number of misconceptions regarding MongoDB's
-suitability for <nobr>e-commerce</nobr> sites. This is understandable, as most of the databases
-falling under the NoSQL umbrella would fare poorly in an e-commerce setting.
-But this is not the case with MongoDB. Indeed, with its support for rich data models,
-dynamic, indexed queries, and atomic operations, MongoDB is a viable and even
-desirable database for e-commerce; here's why.
+suitability for <nobr>e-commerce</nobr> sites. I refer, in particular, to this
+"stackoverflow
+posting":http://stackoverflow.com/questions/2581738/are-there-any-e-commerce-websites-that-use-nosql-databases.
 
-h2. <strong>Catalog Management</strong>
+The hesitant reaction there expressed is understandable, as most of the databases
+falling under the NoSQL umbrella would fare poorly in an <nobr>e-commerce</nobr> setting.
+But this is not the case with MongoDB. Indeed, with its support for rich data models,
+dynamic, indexed queries, atomic operations, and replicated writes, MongoDB can
+be a viable and even desirable database for <nobr>e-commerce</nobr>; here's why.
+
+h2. Catalog Management
 
 If you need some insight into the way in which catalog management is handled
 with relational databases, have a quick look at the schemas of the popular
-"Magento e-commerce framework":http://www.magentocommerce.com/wiki/development/magento_database_diagram or "Apache's OfBiz":https://cwiki.apache.org/confluence/display/OFBTECH/Data+Model+Diagrams.
+"Magento <nobr>e-commerce</nobr> framework":http://www.magentocommerce.com/wiki/development/magento_database_diagram or "Apache's OfBiz":https://cwiki.apache.org/confluence/display/OFBTECH/Data+Model+Diagrams.
 What you'll see is a flurry of tables working together to provide a flexible schema
 on top of a fundamentally inflexible style of database system.
 
@@ -63,7 +68,7 @@ db.products.find({'_id': ObjectID("4bd87bd8277d094c458d2fa5")});
   pct_savings: 8
  },
 
- category_ids: [
+ categories: [
    ObjectID("4bd87bd8277d094c458d2a43"),
    ObjectID("4bd87bd8277d094c458d2b44"),
    ObjectID("4bd87bd8277d094c458d29a1")
@@ -71,8 +76,12 @@ db.products.find({'_id': ObjectID("4bd87bd8277d094c458d2fa5")});
 }
 <% end %>
 
-For object-oriented data, documents make a lot more sense, both
-conceptually and performace-wise. A document-oriented representation of product
+Of course, this is not a complete representation of a product, but it does
+demonstrate how many of the more trivial tables existing in a relational
+representation can be dispensed with in a document representation.
+
+For object-oriented data, documents simply make more sense, both
+conceptually and performance-wise. A document-oriented representation of product
 data means fewer entities (a handful of collections vs. dozens of tables),
 better query performance (no server-side joins), and structures that fit the product
 precisely. There's no longer any need to design some master schema that can
@@ -82,7 +91,7 @@ Catalog management is essentially content management, a domain MongoDB excels at
 To read more about this, see the "Drupal presentation on their move to
 MongoDB":http://sf2010.drupal.org/conference/sessions/mongodb-humongous-drupalr.
 
-h2. <strong>Shopping Carts and Orders</strong>
+h2. Shopping Carts and Orders
 
 Allowing that a shopping cart is merely an order in a 'cart' state, the
 modeling of shopping carts and orders in MongoDB becomes quite straightforward:
@@ -95,12 +104,12 @@ modeling of shopping carts and orders in MongoDB becomes quite straightforward:
  'line_items': [
     {'sku': 'jc-432',
      'name': 'John Coltrane: A Love Supreme',
-     'retail_price': 4000
+     'retail_price': 1099
     },
 
     {'sku': 'ly-211',
      'name': 'Larry Young: Unity',
-     'retail_price': 9200
+     'retail_price': 1199
     },
   ],
 
@@ -111,9 +120,7 @@ modeling of shopping carts and orders in MongoDB becomes quite straightforward:
    'zip': '11216'
   },
 
-  'subtotal': 13200,
-  'tax':      1100,
-  'total':    24200
+  'subtotal': 2199
 }
 <% end %>
 
@@ -125,7 +132,7 @@ user purchases it. This can be accomplished in an RDBMS by linking to a
 particular version of a product. Here, however, we simply store a snapshot of
 the product in the order itself.
 
-h3. <strong>Querying Orders</strong>
+h3. Querying Orders
 
 Since MongoDB supports dynamic queries and secondary indexes, querying for
 orders is a snap. It's possible, for example, to define an index on
@@ -140,7 +147,8 @@ With MongoDB, we can query on arbitrary attributes, so any query on the orders
 collection is possible. And for common queries, we can define indexes for
 greater efficiency.
 
-<strong>Aggregation</strong><br/>
+h4. Aggregation
+
 Of course, aggregation is also necessary. We'll want to report on orders in
 different ways, and for that, map-reduce is available. As an example, here's how
 to write a map-reduce command that aggregates order totals per zip code:
@@ -167,39 +175,39 @@ db.orders.mapReduce(map, reduce, {out: 'order_totals_by_zip'});
 
 For more on MongoDB's map-reduce, see "Map-Reduce Basics":http://kylebanker.com/blog/2009/12/mongodb-map-reduce-basics/.
 
-h3. <strong>Updating Orders</strong>
+h3. Updating Orders
 
-<strong>Incrementing Quantity</strong><br/>
-One way to go about adjusting quantity is using the positional operator, which
-lets you apply atomic operation to individual objects within an array. Here how
-we'd change the quantity of Coltrane albums we want.
+h4. Incrementing Quantity
+
+One way to go about adjusting quantity is to use the positional operator, which
+lets you apply atomic operations to individual objects within an array. Here how
+we change the number of Coltrane albums we're ordering:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
 db.orders.update({'_id': order_id, 'line_items.sku':'jc-431'},
                  {'$set': {'line_items.$.quantity': 2}});
 <% end %>
 
-<strong>Adding and Removing Items</strong><br/>
+h4. Adding and Removing Items
+
 Likewise, atomic operators solve the problem of adding and removing products
-from the cart. For instace, we could use the *$push$ atomic operator to add an
+from the cart. For instace, we can use the *$push* atomic operator to add an
 item to our cart:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
 db.orders.update({'_id': order_id},
     {'$push': {'line_items':
-      {'sku': 'rrf-334', 'price': 25, 'title': 'Basketball'}}
-    });
+      {'sku': 'md-12', 'price': 2500, 'title': 'Basketball'}}
+     '$inc': {'subtotal': 2500}});
 <% end %>
 
-Both when changing quantity and changing the cart items themselves, it's
-necessary to update the order totals. Execution of a server-side JavaScript
-function could accomplish this. See "Mike Dirolf's excellent article on the
-topic":http://dirolf.com/2010/04/05/stored-javascript-in-mongodb-and-pymongo.html
-to see how this could work.
+When changing quantity and changing the cart items themselves, it's
+necessary to update the order totals. Notice that we use the *$inc* operator to
+handle this.
 
-h2. <strong>Inventory</strong>
+h2. Inventory
 
-Not all e-commerce sites need inventory management. But for those that do, MongoDB
+Not all <nobr>e-commerce</nobr> sites need inventory management. But for those that do, MongoDB
 can rise to the ocassion.
 
 One way to model inventory is to store a separate document per
@@ -231,47 +239,52 @@ update = {'$set':
 item = db.inventory.findAndModify(query: query, update: update);
 <% end %>
 
-If we get item back from the findAndModify operation, we know we have a unique lock on that
+If we get an item back from the *findAndModify* operation, we know we have a unique lock on that
 item, and we can store it in our cart. When the user goes to check out, the
 item's state can be advance to 'purchased,' or whatever the case calls for.
 
 Meanwhile, we can run a script in the background that frees cart inventory not
-purchased in the fifteen-minutes window. The update is trivial:
+purchased in the fifteen-minute window. The update is trivial:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
 db.inventory.update({'state': 'available', 'expires': {'$lt': Date.now()}},
   {'$set' {'state': 'available', 'expires': null, 'order_id': null}},
-  false, true);
+  {multi: true});
 <% end %>
 
-h2. <strong>Transactions, Consistency, and Durability</strong>
+h2. Transactions, Consistency, and Durability
 
-A lot of the arguments levied against MongoDB in <nobr>e-commerce</nobr> center
+A lot of the arguments levied against NoSQL in <nobr>e-commerce</nobr> center
 around transactions, consistency, and durability. A few points, then, are
 worth noting.
 
-Concerning transactions, it is true that MongoDB doesn't support multi-object
-transactions; however, it does support atomic operations on individual documents. And
+Concerning transactions, it is true that MongoDB doesn't support the multi-object
+kind; however, it does support atomic operations on individual documents. And
 this, combined with the document-oriented modeling just described and a little
-creativity, is adequate to many e-commerce problems. Certainly, if we needed to
+creativity, is adequate to many <nobr>e-commerce</nobr> problems. Certainly, if we needed to
 literally debit one account and credit another in the same operation, or if we
-wanted rollback, we'd need full-fledged transactions. But plenty e-commerce situations
-don't require that.
+wanted rollback, we'd need full-fledged transactions. However, the
+transactionality that MongoDB may be sufficient for most, if not all, <nobr>e-commerce</nobr>
+operations.
 
 If you're concerned about consistency and durability, know that write
-operations in MongoDB are consistent across connections. Furthermore, a new
-feature in MongoDB.
+operations in MongoDB can be made consistent across connections. Furthermore,
+MongoDB 1.5 support near-real-time replication, so that it's now possible to
+assure that an operation has been replicated before returning. See the documentation on
+"replication
+acknowldgment":http://www.mongodb.org/display/DOCS/Replication#Replication-ReplicationAcknowledgementviagetlasterror
+for details.
 
-h2. <strong>Conclusion</strong>
+h2. Conclusion
 
-Certainly, most NoSQL databases weren't built with <nobr>e-commerce</nobr> in
+Certainly most NoSQL databases weren't built with <nobr>e-commerce</nobr> in
 mind. Databases that lack rich data models, dynamic queries, and any notion of
 transactionality can't be expected to compete in the <nobr>e-commerce</nobr>
-space, and it's understandable how one might think that MongoDB couln't, either.
-But this simply isn't the case.
+space, and so it's understandable how one might think that MongoDB couldn't, either.
 
-For the parts of an <nobr>e-commerce</nobr> site comprising content management, using
+But for the parts of an <nobr>e-commerce</nobr> site comprising content management, using
 MongoDB will mean a clear win. And even for the more transactional components of the
-system, MongoDB has the features necessary to make such compoenets safe
-and reliable.
-
+system, MongoDB has features that make the prospect of running an entire
+e-commerce site on it a real possibility. So while the ideas in this post are
+just a sketch, let's not run from the notion that a document database just might
+do <nobr>e-commerce</nobr>, and do it well.
