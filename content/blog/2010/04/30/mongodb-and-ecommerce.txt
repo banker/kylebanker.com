@@ -180,7 +180,7 @@ h3. Updating Orders
 h4. Incrementing Quantity
 
 One way to go about adjusting quantity is to use the positional operator, which
-lets you apply atomic operations to individual objects within an array. Here how
+lets you apply atomic operations to individual objects within an array. Here's how
 we change the number of Coltrane albums we're ordering:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
@@ -191,7 +191,7 @@ db.orders.update({'_id': order_id, 'line_items.sku':'jc-431'},
 h4. Adding and Removing Items
 
 Likewise, atomic operators solve the problem of adding and removing products
-from the cart. For instace, we can use the *$push* atomic operator to add an
+from the cart. For instance, we can use the *$push* atomic operator to add an
 item to our cart:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
@@ -201,7 +201,7 @@ db.orders.update({'_id': order_id},
      '$inc': {'subtotal': 2500}});
 <% end %>
 
-When changing quantity and changing the cart items themselves, it's
+When adjusting quantity and changing the cart items themselves, it's
 necessary to update the order totals. Notice that we use the *$inc* operator to
 handle this.
 
@@ -224,7 +224,7 @@ documents in our inventory collection. Each document looks something like this:
 }
 <% end %>
 
-When a user tries to add an item to the cart, a findAndModify command can be
+When a user tries to add an item to the cart, a *findAndModify* command can be
 issued to atomically mark the item as in-cart, associate the item with a given
 order, and set an expiration time:
 
@@ -255,7 +255,7 @@ db.inventory.update({'state': 'available', 'expires': {'$lt': Date.now()}},
 h2. Transactions, Consistency, and Durability
 
 A lot of the arguments levied against NoSQL in <nobr>e-commerce</nobr> center
-around transactions, consistency, and durability. A few points, then, are
+around transactions, consistency, and durability. A couple points, then, are
 worth noting.
 
 Concerning transactions, it is true that MongoDB doesn't support the multi-object
@@ -264,7 +264,7 @@ this, combined with the document-oriented modeling just described and a little
 creativity, is adequate to many <nobr>e-commerce</nobr> problems. Certainly, if we needed to
 literally debit one account and credit another in the same operation, or if we
 wanted rollback, we'd need full-fledged transactions. However, the
-transactionality that MongoDB may be sufficient for most, if not all, <nobr>e-commerce</nobr>
+transactionality provided by MongoDB may be sufficient for most, if not all, <nobr>e-commerce</nobr>
 operations.
 
 If you're concerned about consistency and durability, know that write
