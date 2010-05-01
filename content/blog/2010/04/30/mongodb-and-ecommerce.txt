@@ -147,7 +147,7 @@ With MongoDB, we can query on arbitrary attributes, so any query on the orders
 collection is possible. And for common queries, we can define indexes for
 greater efficiency.
 
-h4. Aggregation
+h3. Aggregation
 
 Of course, aggregation is also necessary. We'll want to report on orders in
 different ways, and for that, map-reduce is available. As an example, here's how
