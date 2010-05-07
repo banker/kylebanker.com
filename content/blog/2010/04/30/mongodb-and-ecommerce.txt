@@ -72,7 +72,7 @@ db.products.find({'_id': ObjectID("4bd87bd8277d094c458d2fa5")});
    ObjectID("4bd87bd8277d094c458d2a43"),
    ObjectID("4bd87bd8277d094c458d2b44"),
    ObjectID("4bd87bd8277d094c458d29a1")
- }
+ ]
 }
 <% end %>
 
