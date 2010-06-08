@@ -1,0 +1,89 @@
+--- 
+title:      E-commerce Inventory with MongoDB
+desc:       Handling inventory and checkout with MongoDB.
+keywords:   mongodb, e-commerce, inventory, transactions, acid
+created_at: 2010-06-07 20:45:57.504206 -04:00
+blog_post:  true
+layout: blog
+comments: true
+filter:
+- erb
+- textile
+--- 
+
+In "my last post":/blog/2010/04/30/mongodb-and-ecommerce/, I sketched out how a few e-commerce domains might be modeled
+using MongoDB. Among the examples was an illustration of how inventory could be
+managed using the database's "find_and_modify
+command":http://www.mongodb.org/display/DOCS/findandmodify+Command.
+
+h3. Inventory as Documents
+
+To recap, I suggested that each physical inventory item be represented as a separate entry
+in an inventory collection. When a user adds an item to her cart, we run a
+find_and_modify operation, which searches for an item with the given sku that's
+marked as *available*. If the item is found, we mark the item as *in-cart* and set an
+expiration date so that a separate reaper process can periodically comb through
+the collection and reset any unpurchaed items.
+
+Given that find_and_modify works atomically, the query and update all happen
+within the scope of a single atomic operation. This works great when the user is
+merely adding one item to the cart (or checking out with just one item.)  But,
+as two commenters pointed out, the situation becomes a bit dicier when the user
+is trying to add or check out with more than one item. How do we handle this
+situation atomically?
+
+The short answer is that, strictly speaking, we can't. MongoDB does not support
+multi-object transactions at the moment and probably won't anytime soon (doing
+so would add too much complexity in a sharded situation). However, there is a
+workaround that will serve in most situations, which is to simulate a
+transaction at the application layer.
+
+h3. Add to cart
+
+To show that this is possible, I built "a simple test
+application":http://github.com/banker/inventory which you can check out "on
+github":http://github.com/banker/inventory. If you clone the repo, you can run
+the test suite; the code is relatively easy to follow.
+
+The algorithm goes something like this, assuming that multiple items are added to the cart
+in a single operation:
+
+*For each item*:
+* Determine if that item is *available*.
+
+* If the item is *available*, set its state to *in-cart*,
+and push that item's _id value onto the order document.
+
+* If at any point an item can't be transitioned, perform a rollback. This involves removing
+all the added items from the cart, reverting their state to *available*, and
+then raising an exception.
+
+That's it. The biggest drawback here is that the process isn't atomic. If
+either the database server or the application server crashes in the middle of the
+operation, then we're probably left in an inconsistent state. Thus, this
+techinque shouldn't be used in an accounting system. But you already knew _that_.
+
+h3. Checkout
+
+With just a few slight modifications, the code I posted can also be used at
+checkout. The checkout process is quite similar:
+
+* Use find_and_modify to move all cart items to a *purchased* state. If this
+fails for any one item, roll all the items back to the *in-cart* state, and abort the purchase.
+
+* If all items advance, authorize the credit card. If the credit card
+* authorizes, the order can be
+transitioned to the next logical state (e.g., *ready-to-ship*). If the card
+fails to authorize, revert the cart items to *in-cart*.
+
+h3. Conclusion
+
+Is the inventory control technique outlined here as robust as what you'd get with a
+transactional relational database engine? Obviously not.
+
+Is it sufficient for ensuring that no more inventoy is sold than is available?
+Yes.
+
+Not all e-commerce sites need to limit purchases based on available inventory.
+But if you're building one that does, and you want to use MongoDB, the
+find_and_modify technique presented here just may do the trick.

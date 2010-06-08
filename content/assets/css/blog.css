@@ -179,6 +179,10 @@ p.title {
   font-size: 1.3em;
 }
 
+.post ul {
+  font-size: 1.3em;
+}
+
 .post p span.readmore {
   font-size: 0.8em;
 }

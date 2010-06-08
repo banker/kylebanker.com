@@ -80,7 +80,7 @@ blockquote  { margin: 1.5em;
               font-style: italic; 
               font-size: 1.3em; }
 strong      { font-weight: bold; }
-em,dfn      { font-style: italic; background: #ffc; }
+em,dfn      { font-style: italic; }
 dfn         { font-weight: bold; }
 pre,code    { margin: 1.5em 0; padding: 0.5em; white-space: pre; }
 pre,code,tt { font: 1.1em 'monaco', 'monotype.com', 'lucida console', monospace; line-height: 1.5; }  
