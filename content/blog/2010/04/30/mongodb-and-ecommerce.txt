@@ -247,7 +247,7 @@ Meanwhile, we can run a script in the background that frees cart inventory not
 purchased in the fifteen-minute window. The update is trivial:
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
-db.inventory.update({'state': 'available', 'expires': {'$lt': Date.now()}},
+db.inventory.update({'state': 'cart', 'expires': {'$lt': Date.now()}},
   {'$set' {'state': 'available', 'expires': null, 'order_id': null}},
   {multi: true});
 <% end %>

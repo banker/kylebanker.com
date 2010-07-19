@@ -55,7 +55,7 @@ Next, we need a reduce function that adds to these totals:
 // Reduce function (in JavaScript)
 var voteAdder = function(doc, prev) {
   prev.upvote_total   += doc.upvotes;
-  prev.downvote_tota  += doc.downvotes;
+  prev.downvote_total  += doc.downvotes;
   prev.count          += 1;
 }
 <% end %>
@@ -79,14 +79,14 @@ As expected, this returns an array of documents with the totals we sought:
 [
   {
     "user_id"   : "a0fc46004",
-    "uptotal"   : 24,
-    "downtotal" : 30,
+    "upvote_total"   : 24,
+    "downvote_total" : 30,
     "count"     : 2
   },
   { 
     "user_id"   : "a0fc46005",
-    "uptotal"   : 68,
-    "downtotal" : 3,
+    "upvote_total"   : 68,
+    "downvote_total" : 3,
     "count"     : 3
   }
 ]
