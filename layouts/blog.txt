@@ -36,6 +36,7 @@ filter:    erb
     <% else %>
       about
     <% end %></li>
+
     <% if @page.path != "content/blog/archives.txt" %>
       <li><a title="a list of past articles"
       href="/blog/archives/">archives</a></li>
@@ -43,9 +44,9 @@ filter:    erb
       <li>archives</li>
     <% end %>
     </ul>
-    
+
     <div id="book">
-    <a href="http://manning.com/banker"><img src="/assets/images/mongodb-in-action.jpg" /></a>
+    <a href="http://mongodb-book.com/"><img src="/assets/images/mongodb-in-action.jpg" /></a>
     </div>
    </div>
 
@@ -64,7 +65,7 @@ filter:    erb
    </div>
 
    <div id="footer" class="column full last">
-     <p>licensed under the <a
+     <p>copyright 2007-2010 kyle banker and licensed under the <a
      href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/">creative
      commons</a>. share and <a
      href="/blog/feed.xml">subscribe</a> freely.

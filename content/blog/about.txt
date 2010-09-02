@@ -25,7 +25,6 @@ filter:     erb
     <li><a href="http://twitter.com/hwaet">Twitter</a></li>
     <li><a href="http://flickr.com/dkbanker">Flickr</a></li>
     <li><a href="http://github.com/banker">Github</a></li>
-    <li><a href="http://manning.com/banker">Manning Books: MongoDB in Action</a></li>
   </ul>
 
   <img class="dingbat" alt="funky dingbat" src="/assets/images/dingbat.gif" />
