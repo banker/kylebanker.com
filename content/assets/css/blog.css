@@ -141,6 +141,16 @@ p.title {
  padding-left: 0;
 }
 
+#book {
+  margin-top: 1em;
+  padding: 0;
+}
+
+#book a:hover, #book a:active { 
+  color: <%= @page.color['white'] %>;
+  background-color: <%= @page.color['white'] %>;
+}
+
 /* Header Classes
  * --------------------------------------------------------------------- */
 #header {

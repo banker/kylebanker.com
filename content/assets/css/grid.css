@@ -10,7 +10,7 @@
   float: left;
 }
 
-.full  { width: 650px; margin: 0; }
+.full  { width: 750px; margin: 0; }
 
 /* The last column in a row needs this class. */
 .last { margin-right: 0; }

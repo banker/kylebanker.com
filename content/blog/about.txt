@@ -16,8 +16,17 @@ filter:     erb
   &ldquo;lo!&rdquo; and is the first word of <a
   href="http://ang.wikipedia.org/wiki/B%C4%93o%C6%BFulf">Beowulf</a>.)</p>
 
-  <p>If you'd like to say hi, <a title="mail me"
-  href="mailto:kylebanker@gmail.com">email me</a>.</p>
+  <p>I'm fortunate to work at <a href="http://10gen.com">10gen</a> where, among other thing, I maintain
+  the <a href="http://github.com/mongodb/mongo-ruby-driver/">MongoDB Ruby driver</a>.
+
+  <p>Here are some other places you can find me online:</p>
+
+  <ul>
+    <li><a href="http://twitter.com/hwaet">Twitter</a></li>
+    <li><a href="http://flickr.com/dkbanker">Flickr</a></li>
+    <li><a href="http://github.com/banker">Github</a></li>
+    <li><a href="http://manning.com/banker">Manning Books: MongoDB in Action</a></li>
+  </ul>
 
   <img class="dingbat" alt="funky dingbat" src="/assets/images/dingbat.gif" />
 </div>

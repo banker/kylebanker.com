@@ -39,10 +39,14 @@ filter:    erb
     <% if @page.path != "content/blog/archives.txt" %>
       <li><a title="a list of past articles"
       href="/blog/archives/">archives</a></li>
-    <% else %>  
+    <% else %>
       <li>archives</li>
-    <% end %>  
+    <% end %>
     </ul>
+    
+    <div id="book">
+    <a href="http://manning.com/banker"><img src="/assets/images/mongodb-in-action.jpg" /></a>
+    </div>
    </div>
 
 
