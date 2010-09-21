@@ -134,13 +134,13 @@ Like this:
 "};"
 
 # Pass those to the map_reduce helper method
-@results = @comments.map_reduce(map, result)
+@results = @comments.map_reduce(map, reduce)
 
 # Since this method returns an instantiated results collection,
 # we just have to query that collection and iterate over the cursor.
 >> @results.find().to_a
-=> [{"_id"="hwaet", "value"=>{"votes"=>21.0}}, 
-    {"_id"=>"kbanker", "value"=>{"votes"=>13.0}}
+=> [{"_id" => "hwaet",   "value"=>{"votes"=>21.0}}, 
+    {"_id" => "kbanker", "value"=>{"votes"=>13.0}}
    ]
 <% end %>
 
