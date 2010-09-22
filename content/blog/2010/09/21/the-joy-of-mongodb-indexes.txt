@@ -1,0 +1,279 @@
+--- 
+title:      The Joy of Indexing
+desc:       A mental model for database indexing.
+keywords:   mongodb, indexing, b-tree, compound indexes
+created_at: 2010-09-21 16:34:46.179350 -04:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+We spend quite a lot of time at 10gen <a href="http://groups.google.com/group/mongodb-user">supporting MongoDB users</a>. The questions we
+receive are truly legion but, as you might guess, they tend to overlap.
+We get frequent queries on sharding, replica sets, and
+the idiosyncrasies of JavaScript, but the one subject that never fails to appear
+each day on our mailing list is indexing.
+
+Now, to be clear, I'm not talking about how to create an index. That's easy. The
+trouble runs much deeper. It's knowing how indexes work and having the intuition
+to create the best indexes for your queries and your data set. Lacking this
+intuition, your production database will eventually slow to a crawl,
+you'll upgrade your hardware in vain, and when all else fails, you'll blame both gods and men.
+
+This need not be your fate. You _can_ understand indexing! All that's required is the
+right mental model, and over the course of this series, that's just what I hope to provide.
+
+But _caveat emptor_: what follows is a thought experiment. To get the most out of this post,
+you can't skim it. Read every word. Use your imagination. Think through the
+quizzes. Do this, and your indexing struggles may soon be no more.
+
+h3. Picturing an index
+
+To understand indexing, you need a picture in your head. So imagine a cookbook.
+And not just any cookbook. A massive cookbook, five thousand pages long with
+the most delicious recipes for every occasion, cuisine, and season with all the good ingredients you
+might find at home. _This_ is the cookbook to end them all. Let's call it The
+Cookbook Omega.
+
+Now, although this might be best of all possible cookbooks, there are two tiny problems with the Cookbook Omega.
+The first is that the recipes are in random order. On page 3,475 you have Australian Braised
+Duck, and on page 2 there's Zacatecan Tacos.
+
+That would be mangeable were it not for the second problem: the Cookbook Omega has no index.
+
+<dl class="quiz">
+<dt>Quiz:</dt>
+<dd>With no index, how do you find the recipe for Rosemary Potatoes in the Cookbook Omega?</dd>
+
+<dt>Answer:</dt>
+<dd>Your only choice is to scan through every page of the book
+until you find the recipe. If the recipe is on page 3,973, that's how many pages
+you have to look through. In the worst case, you have to look at every single
+page!</dd>
+</dl>
+
+The solution is to build an index.
+
+h3. The recipe search
+
+There are few ways you can imagine searching for a recipe, but the recipe's name
+is probably a good place to start. If we create an alphabetical listing at the
+end of the book of each recipe's name followed by its page number, then we'll
+have indexed the book by recipe name. A few entries might look like this:
+
+<dl>
+<dt>Tibetan Yak Soufflé</dt><dd>45</dd>
+<dt>Toasted Sesame Dumplings</dt><dd>4,011</dd>
+<dt>Turkey à la King</dt><dd>943</dd>
+</dl>
+
+As long as we know the name of recipe, or even the first few letters of that
+name, we can use this index quickly find that recipe in the
+book. If that's the only way we expect to search for recipes, then our work is
+done.
+
+But, of course, this is unrealistic. Because we can also imagine wanting to find
+recipes based on the ingredients we have in our pantry. Or perhaps we want to
+search by cuisine. For
+those cases, we need more indexes.
+
+<dl class="quiz">
+<dt>Quiz:</dt>
+<dd>With just one index in recipe name, how do you find all the Chicken recipes?</dd>
+
+<dt>Answer:</dt>
+<dd>Lacking the proper indexes, you have to scan the entire book, all 5,000 pages. This is true
+for any search on ingredients or cuisine.<dd>
+</dl>
+
+So, we need to build another index, this time on ingredients. In this index, we have an
+alphabetical listing of ingredients each pointing to the page number of recipes
+containing that ingredient. The most basic index on
+ingredients would thus look like this:
+
+<dl>
+<dt>Cashews</dt><dd>3, 20, 42, 88, 103, 1,215...</dd>
+<dt>Cauliflower</dt><dd>2, 47, 88, 89, 90, 275...</dd>
+<dt>Chicken</dt><dd>7, 9, 80, 81, 82, 83, 84...</dd>
+<dt>Currants</dt><dd>1,001, 1,050, 2,000, 2,133...</dd>
+</dl>
+
+Is the index you thought you were going to get? Is it even helpful?
+
+This index is good if all you need is a list of recipes for a given ingredient.
+But if you have any other information about the recipe that you want to include
+in your search, you you still have some scanning to do. Once you know the page numbers
+where Cauliflower is referenced, you then to go to each of those pages to get
+the name of the recipe and what cuisine it's part of. This is, of course,
+better than paging through the whole book, but there are still improvements to
+be made.
+
+<dl class="quiz">
+<dt>Quiz:</dt>
+<dd>You randomly discovered a great chicken recipe in the Cookbook Omega several
+months ago, but you've forgotten its name. At this point, we have two indexes, one on recipe
+name and the other on ingredients. Can you think of a way to use these two indexes in combination
+to find your long lost chicken recipe?</dd>
+
+<dt>Answer:</dt>
+<dd>I sure hope not. Think about it. If you start with the index on recipe name, but
+don't remember the name of the recipe, then searching this index is little
+better than paging through the entire book. If, on the other hand, you start
+with the index on ingredients, then you'll have a list of page numbers to check,
+but those page numbers can in no way be plugged in to the index on recipe name.
+Therefore, you can only use one index in this case, and it turns out that the
+one on ingredients is the more helpful of the two.</dd>
+
+<dt>Discussion:</dt>
+<dd>We commonly encounter users who believe that searching on two fields can be
+facilitated by creating two separate indexes on those fields. This example
+should give you some intuition about why this just isn't possible.</dd>
+</dl>
+
+Happily, there is a solution to the long lost chicken recipe, and its answer
+lies in the use of compound indexes.
+
+h3. Compound indexes
+
+The two indexes we've created so far are single-key indexes: they both order
+just one data item from each recipe. We're now going to build out yet another
+index for the Cookbook Omega, but this time, instead of using just one data
+item, we'll use two. Indexes that use more than one key like this are called compound
+indexes.
+
+This compound index uses both ingredients and recipe name, _in that order_. We'll
+notate the index like this: <code>ingredient</code>-><code>name</code>. Here's what part of this index would look like:
+
+<dl>
+<dt>Cashews</dt>
+<dd>
+<dl>
+  <dt>Cashew Marinade<dt><dd>1,215</dd>
+  <dt>Chicken with Cashews<dt><dd>88</dd>
+  <dt>Rosemary-Roasted Cashews<dt><dd>103</dd>
+</dl>
+</dd>
+
+<dl>
+<dt>Cauliflower</dt>
+<dd>
+<dl>
+  <dt>Bacon Cauliflower Salad<dt><dd>875</dd>
+  <dt>Lemon-baked Cauliflower<dt><dd>89</dd>
+  <dt>Spicy Cauliflower Cheese Soup<dt><dd>47</dd>
+</dl>
+</dd>
+
+<dt>Currants</dt>
+<dd>
+<dl>
+  <dt>Creamed Scones with Currants<dt><dd>2,000</dd>
+  <dt>Fettuccini with Glazed Duck<dt><dd>2,133</dd>
+  <dt>Saffron Rice with Currants<dt><dd>1,050</dd>
+</dl>
+</dd>
+</dl>
+
+The value of this index for a human is obvious. You can now search by ingredient
+and probably very quickly find the recipe you want. For a machine, it's still
+valuable for this use case, but only if we can provide the first letters of the
+recipe name, which will keep the database from having to scan every recipe name listed
+for that ingredient. This compound index would be especially useful if, as with
+the Cookbook Omega, we had several hundred (or thousand) chicken recipes.
+
+<dl class="quiz">
+<dt>Quiz:</dt>
+<dd>Remember: with compound indexes, order matters. Imagine a compound index on
+<code>name</code>-><code>ingredient</code>. Would this index be interchangeable with the
+inverse compound index we just explored?</dd>
+
+<dt>Answer:</dt>
+<dd>Definitely not. With this index, once we have the recipe name, our search is already
+limited to a single recipe, a single page in our cookbook. So if this index were
+used on a search for the recipe "Cashew Marinade" and the ingredient "Bananas" then the index could
+confirm that no such recipe exists. But that's not exactly our use case.</dd>
+</dl>
+
+<dl class="quiz">
+<dt>Bonus Quiz:</dt>
+<dd>Our cookbook now has three indexes: one on recipe name, one on ingredients, and one
+on <code>ingredient</code>-><code>name</code>. With the compound index in place, is it possible to
+eliminate either of the first two indexes we created?</dd>
+
+<dt>Answer:</dt>
+<dd>Yes! We can safely tear out the single-key index on ingredients. Why? Because a
+search that just specifies an ingredient can use the index on
+<code>ingredient</code>-><code>name</code>. If we know an ingredient, we can, using that compound
+index, easily get a list of all page numbers containing said ingredient. Look again at the
+sample entries for this index to see why this is so.</dd>
+
+<dt>Exercise:</dt>
+<dd>If we only know the recipe name, why can't we use the index on
+<code>ingredient</code>-><code>name</code> to find that recipe's page number?</dd>
+</dl>
+
+h3. Selectivity
+
+We're going to cover one more concept that you can use to design better
+indexes. It's the idea that some keys for your data will be more selective
+than others. Imagine that the recipes in the Cookbook Omega consist of a total
+of 500 different ingredients but only represent 15 different cuisines. If the
+cookbook contains 5,000 recipes, which key -- ingredients or cuisine -- is more
+selective?
+
+Intuitively, it should be easy to see that ingredient narrows the the number of recipes
+much more than cuisine does. On averge, there will be 417 (5,000 / 12) recipes per cuisine
+but only 3 recipes per ingredient (5,000 / 500). Again, this is an average. But
+it does indicate that ingredient is the more selective of the two fields.
+
+<dl class="quiz">
+<dt>Quiz:</dt>
+<dd>Suppose you want to search the Cookbook Omega on both cuisine and
+ingredient. You'll need to build a compound index, but the ordering will make a
+difference. Which should come first? (Hint: think about selectivity).</dd>
+
+<dt>Answer:</dt>
+<dd>You're probably better off building the compound index on
+<code>ingredient</code>-><code>cuisine</code>. In addition to providing a more selective first key, this
+compound index will actually be useful for queries on ingredient only. It's easy
+to see how the inverse compound index on cuisine->ingredient wouldn't be all that useful
+for the opposite case, where the search is on cuisine alone. (And of course, we
+all know now that queries on the second key of a compound index aren't possible.)</dd>
+
+<dt>Exercise:</dt>
+<dd>Visualize for yourself the difference between the representatons of
+<code>ingredient</code>-><code>cuisine</code> and
+<code>cuisine</code>-><code>ingredient</code> as they would appear as indexes in the Cookbook Omega.</dd>
+</dl>
+
+h3. Lessons and Limits
+
+The goal of this post was to lay a groundwork for readers needing a better mental model of indexes.
+And while I'm convinced that having a solid mental model is always better than
+memorizing rules of thumb, here are few concrete lessons that can derived from this thought experiment:
+
+<ul>
+  <li>Indexes make for fast retrieval. Without the proper indexes, you're forced
+to manually page through your data, which is slow.</li>
+  <li>Indexes on a single key cannot be used in combination with one another. For queries that
+use multiple keys (e.g., ingredient and recipe name), you need a compound index.</li>
+  <li>An index on <code>ingredient</code> can and should be eliminated if you have a second
+index on <code>ingredient</code>-><code>cuisine</code>. More generally, if you
+have an index on <code>a</code>-><code>b</code>, then
+a second index on <code>a</code> alone will be redundant.</li>
+  <li>The order of keys in a compound index matters greatly. It's usually better if the
+more selective key comes first. (But what's best will always be dicated by the
+range of queries you expect to perform.)</li>
+  <li>Keep a mind to selectivity. You should probably avoid creating indexes
+that aren't very selective, particularly if they're on a single key only.</li>
+</ul>
+
+One final note is to bear in mind that the cookbook analogy can be taken only
+so far. It's a model for understanding indexes, but it doesn't fully correspond
+to the way that B-tree indexes actually work (<a href="http://en.wikipedia.org/wiki/B-tree">B-trees</a> are the data structure used to
+represent indexes in most databases, including <a
+href="http://mongodb.org">MongoDB</a>). The ideas presented
+here generally hold true, but if you'd like more nuance, <a href="/blog/feed.xml">stay tuned</a> for the next post,
+where I'll introduce B-trees and build on the mental model begun here.

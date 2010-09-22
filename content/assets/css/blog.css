@@ -252,6 +252,21 @@ p.title {
   margin-left: 1em;
 }
 
+/* Special classes for blog
+ * --------------------------------------------------------------------- */
+dl.quiz {
+  border: 1px solid #303030;
+  padding: 0.5em 0.5em;
+  background-color: #fffcbd;
+}
+
+dl.quiz dd {
+  margin-bottom: 0.5em;
+}
+
+dl.quiz dd {
+  font-size: 1.2em;
+}
 
  /* Footer Classes
  * --------------------------------------------------------------------- */
