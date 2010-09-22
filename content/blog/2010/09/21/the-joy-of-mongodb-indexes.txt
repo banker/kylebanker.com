@@ -220,14 +220,13 @@ h3. Selectivity
 We're going to cover one more concept that you can use to design better
 indexes. It's the idea that some keys for your data will be more selective
 than others. Imagine that the recipes in the Cookbook Omega consist of a total
-of 500 different ingredients but only represent 15 different cuisines. If the
+of 200 different ingredients but only represent 15 different cuisines. If the
 cookbook contains 5,000 recipes, which key -- ingredients or cuisine -- is more
 selective?
 
 Intuitively, it should be easy to see that ingredient narrows the the number of recipes
 much more than cuisine does. On averge, there will be 417 (5,000 / 12) recipes per cuisine
-but only 3 recipes per ingredient (5,000 / 500). Again, this is an average. But
-it does indicate that ingredient is the more selective of the two fields.
+but only 125 recipes per ingredient (5,000 / 200 * 5). This assumes an average of five ingredients per recipe, but clearly, the actual selectivity of any given ingredient will always hard to estimate. Some ingredients (chicken) will be less selective than others (anise). But ingredient is generally the more selective of the two fields.
 
 <dl class="quiz">
 <dt>Quiz:</dt>

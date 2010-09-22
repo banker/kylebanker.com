@@ -15,7 +15,7 @@ module Rake
     end
     
     def upload
-      sh %{scp -rq -P#{@port} #{@local_dir}/* #{@host}:#{@remote_dir}}
+      sh %{scp -r -P#{@port} #{@local_dir}/* #{@host}:#{@remote_dir}}
     end
   end
   
