@@ -71,7 +71,7 @@ have indexed the book by recipe name. A few entries might look like this:
 </dl>
 
 As long as we know the name of recipe, or even the first few letters of that
-name, we can use this index quickly find that recipe in the
+name, we can use this index to quickly find that recipe in the
 book. If that's the only way we expect to search for recipes, then our work is
 done.
 
@@ -105,8 +105,8 @@ Is the index you thought you were going to get? Is it even helpful?
 
 This index is good if all you need is a list of recipes for a given ingredient.
 But if you have any other information about the recipe that you want to include
-in your search, you you still have some scanning to do. Once you know the page numbers
-where Cauliflower is referenced, you then to go to each of those pages to get
+in your search, you still have some scanning to do. Once you know the page numbers
+where Cauliflower is referenced, you then need to go to each of those pages to get
 the name of the recipe and what cuisine it's part of. This is, of course,
 better than paging through the whole book, but there are still improvements to
 be made.
@@ -114,7 +114,7 @@ be made.
 <dl class="quiz">
 <dt>Quiz:</dt>
 <dd>You randomly discovered a great chicken recipe in the Cookbook Omega several
-months ago, but you've forgotten its name. At this point, we have two indexes, one on recipe
+months ago, but you've forgotten its name. At this point, there are two indexes, one on recipe
 name and the other on ingredients. Can you think of a way to use these two indexes in combination
 to find your long lost chicken recipe?</dd>
 
@@ -220,13 +220,13 @@ h3. Selectivity
 We're going to cover one more concept that you can use to design better
 indexes. It's the idea that some keys for your data will be more selective
 than others. Imagine that the recipes in the Cookbook Omega consist of a total
-of 200 different ingredients but only represent 15 different cuisines. If the
+of 200 different ingredients but only represent 12 different cuisines. If the
 cookbook contains 5,000 recipes, which key -- ingredients or cuisine -- is more
 selective?
 
 Intuitively, it should be easy to see that ingredient narrows the the number of recipes
 much more than cuisine does. On averge, there will be 417 (5,000 / 12) recipes per cuisine
-but only 125 recipes per ingredient (5,000 / 200 * 5). This assumes an average of five ingredients per recipe, but clearly, the actual selectivity of any given ingredient will always hard to estimate. Some ingredients (chicken) will be less selective than others (anise). But ingredient is generally the more selective of the two fields.
+but only 125 recipes per ingredient (5,000 / 200 * 5). This assumes an average of five ingredients per recipe, but clearly, the actual selectivity of any given ingredient will always be hard to estimate. Some ingredients (chicken) will be less selective than others (anise). But ingredient is generally the more selective of the two fields.
 
 <dl class="quiz">
 <dt>Quiz:</dt>
@@ -251,8 +251,8 @@ all know now that queries on the second key of a compound index aren't possible.
 h3. Lessons and Limits
 
 The goal of this post was to lay a groundwork for readers needing a better mental model of indexes.
-And while I'm convinced that having a solid mental model is always better than
-memorizing rules of thumb, here are few concrete lessons that can derived from this thought experiment:
+Having a solid mental model is always better than
+memorizing rules of thumb, but just to help out, here are few concrete lessons that can derived from this thought experiment:
 
 <ul>
   <li>Indexes make for fast retrieval. Without the proper indexes, you're forced
