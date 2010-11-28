@@ -240,7 +240,7 @@ difference. Which should come first? (Hint: think about selectivity).</dd>
 compound index will actually be useful for queries on ingredient only. It's easy
 to see how the inverse compound index on cuisine->ingredient wouldn't be all that useful
 for the opposite case, where the search is on cuisine alone. (And of course, we
-all know now that queries on the second key of a compound index aren't possible.)</dd>
+all know now that queries on a compound index aren't possible if all we have is the second key.)</dd>
 
 <dt>Exercise:</dt>
 <dd>Visualize for yourself the difference between the representatons of
