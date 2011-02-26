@@ -10,7 +10,7 @@ filter:
 - textile
 --- 
 
-Michael Osinski's software helped create the morgage-backed securities that
+Michael Osinski's software helped create the mortgage-backed securities that
 have undermined our banking system. He reflects on the easy
 manipulation of systems we don't wholly understand:
 
