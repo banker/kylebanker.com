@@ -11,6 +11,8 @@ filter:
 - textile
 --- 
 
+p(highlight small). Note: Updated on Feb. 25, 2011 for <a href="#output">MongoDB v1.8</a>
+
 If you're accustomed to working with relational databases, the thought of
 specifying aggregations with map-reduce may be a bit intimidating. Here, in the
 third in "a series of articles on MongoDB aggregation":http://kylebanker.com/blog/2009/11/mongodb-count-group/, I explain map-reduce.
@@ -77,14 +79,14 @@ var reduce = function(key, values) {
 
 h3. <strong>Results</strong>
 
-So how do we we run it? From the shell, we pass our map and reduce functions to the mapReduce helper:
+So how do we we run it? From the shell, we pass our map and reduce functions to the mapReduce helper. Note that as of MongoDB v1.8, you must specify an output collection name.
 
 <% uv :lang => "javascript", :theme => "twilight" do -%>
 // Running mapReduce.
-var op = db.comments.mapReduce(map, reduce);
+var op = db.comments.mapReduce(map, reduce, {out: "mr_results"});
 
 {
-  "result" : "tmp.mr.mapreduce_1260567078_11",
+  "result" : "mr_results",
   "timeMillis" : 8,
   "counts" : {
   "input" : 6,
@@ -97,8 +99,8 @@ var op = db.comments.mapReduce(map, reduce);
 
 
 Notice that running the mapReduce helper returns *stats on the operation*; the
-results of the operation itself are stored in a temporary collection. In this
-case, that collection is *tmp.mr.mapreduce_1260567078_11*.
+results of the operation itself are stored in the collection specified, here
+called "mr_results".
 
 The other stats also prove informative. First is the operation time in
 milliseconds. Next are the number of input documents, the number of times we
@@ -114,6 +116,82 @@ db[op.result].find();
 { "_id" : "hwaet", "value" : { "votes" : 21 } }
 { "_id" : "kbanker", "value" : { "votes" : 13 } }
 <% end %>
+
+h3(#output). Output types: merge, reduce, and inline
+
+MongoDB v1.8 introduces a couple changes to map-reduce's output. First,
+temporary collections are no more. All output now must go into a specifically
+named collection or be returned inline.
+
+If you specify the collection name only, then any existing collection of the same name
+will be overwritten.
+
+But there are now two new options that allow you to preserve the existing
+collection either by merging the new set of results or folding them in with
+the reduce function. Let's take a closer look at these.
+
+The syntax for merging is simple:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+db.comments.mapReduce(map, reduce, {out: {merge: "mr_results"}});
+<% end %>
+
+A merge will overwrite any existing keys with the newly-generated keys.
+
+The syntax for reducing is similar:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+db.comments.mapReduce(map, reduce, {out: {reduce: "mr_results"}});
+<% end %>
+
+Reducing works like this: whenever a key in the new results already exists
+in the output collection, the reduce function is applied to both keys, and the return value replaces the existing key.
+
+Definitions are always hard to visualize; an example should help to clarify the difference between <code>merge</code> and <code>reduce</code>.
+So suppose an earlier map-reduce places the following two results into an output collection.
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+{ "_id" : "hwaet", "value" : { "votes" : 5 } }
+{ "_id" : "kbanker", "value" : { "votes" : 5 } }
+<% end %>
+
+Now imagine that we run map-reduce again with a more recent data set, producing
+the following results:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+{ "_id" : "hwaet", "value" : { "votes" : 1 } }
+{ "_id" : "jones", "value" : { "votes" : 100 } }
+<% end %>
+
+If we run a map-reduce merge, the final collection will contain these values:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+{ "_id" : "hwaet", "value" : { "votes" : 1 } }
+{ "_id" : "kbanker", "value" : { "votes" : 5 } }
+{ "_id" : "jones", "value" : { "votes" : 100 } }
+<% end %>
+
+With reduce, the values will be these:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+{ "_id" : "hwaet", "value" : { "votes" : 6 } }
+{ "_id" : "kbanker", "value" : { "votes" : 5 } }
+{ "_id" : "jones", "value" : { "votes" : 100 } }
+<% end %>
+
+Notice that the values for the "hwaet" key are reduced using the reduce function. In this case, this simply means adding the votes together.
+
+The final new map-reduce option allows you to return the results rather than writing
+them to a collection. Here's how you use it in JavaScript:
+
+<% uv :lang => "javascript", :theme => "twilight" do -%>
+db.comments.mapReduce(map, reduce, {out: {inline: 1}});
+<% end %>
+
+If you're using <code>:out => {:inline => 1}</code> with the Ruby driver,
+be sure that you also specify the <code>:raw => true</code>
+parameter to prevent the <code>Collection#map_reduce</code> method
+from attempting to return an instance of <code>Mongo::Collection</code>.
 
 h3. <strong>How do I execute map-reduce from Ruby?</strong>
 
@@ -134,7 +212,7 @@ Like this:
 "};"
 
 # Pass those to the map_reduce helper method
-@results = @comments.map_reduce(map, reduce)
+@results = @comments.map_reduce(map, reduce, :out => "mr_results")
 
 # Since this method returns an instantiated results collection,
 # we just have to query that collection and iterate over the cursor.
@@ -143,7 +221,6 @@ Like this:
     {"_id" => "kbanker", "value"=>{"votes"=>13.0}}
    ]
 <% end %>
-
 
 h3. <strong>Practice</strong>
 
