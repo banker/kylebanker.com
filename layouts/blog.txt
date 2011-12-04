@@ -28,13 +28,11 @@ filter:    erb
 </head>
 <body>
    <div id="sidebar">
-    <h3 id="logo"><a href="/blog/">hwæt!</a></h3>
-    <p>(kyle banker's blog)</p>
     <ul>
     <li><% if @page.path != "content/blog/about.txt" %>
-      <a title="what does 'hwaet' mean? who is kyle banker?" href="/blog/about/">about</a>
+      <a title="who is kyle banker?" href="/blog/about/">about me</a>
     <% else %>
-      about
+      about me
     <% end %></li>
 
     <% if @page.path != "content/blog/archives.txt" %>
@@ -46,7 +44,7 @@ filter:    erb
     </ul>
 
     <div id="book">
-    <a href="http://mongodb-book.com/"><img src="/assets/images/mongodb-in-action.jpg" /></a>
+    <a href="http://manning.com/banker"><img src="/assets/images/mongodb-in-action.png" /></a>
     </div>
    </div>
 
@@ -65,7 +63,7 @@ filter:    erb
    </div>
 
    <div id="footer" class="column full last">
-     <p>copyright 2007-2010 kyle banker and licensed under the <a
+     <p>copyright 2007-2011 kyle banker and licensed under the <a
      href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/">creative
      commons</a>. share and <a
      href="/blog/feed.xml">subscribe</a> freely.

@@ -7,17 +7,16 @@ dirty:      true
 layout:     blog
 filter:     erb
 ---
-<h1>About</h1>
+<h1>About me</h1>
 
 <div id="about">
   <p>Hi. I'm Kyle Banker, a coder, ocassional
-  philosopher, and aspiring polymath living in New York City.
-  I'm also linguaphile; hence, this blog's unusual name. (<a href="http://en.wiktionary.org/wiki/hw%C3%A6t">hwæt!</a> translates as &ldquo;hark!&rdquo; or
-  &ldquo;lo!&rdquo; and is the first word of <a
-  href="http://ang.wikipedia.org/wiki/B%C4%93o%C6%BFulf">Beowulf</a>.)</p>
+  philosopher, and aspiring polymath living in New York City.</p>
 
   <p>I'm fortunate to work at <a href="http://10gen.com">10gen</a> where, among other things, I maintain
-  the <a href="http://github.com/mongodb/mongo-ruby-driver/">MongoDB Ruby driver</a>.
+  the MongoDB drivers for <a href="http://github.com/mongodb/mongo-ruby-driver/">Ruby</a> and
+  <a href="https://github.com/mongodb/mongo-c-driver">C</a>. I'm also the author of
+  <a href="http://manning.com/banker"><i>MongoDB in Action</i></a>.
 
   <p>Here are some other places you can find me online:</p>
 

@@ -1,0 +1,29 @@
+--- 
+title:      MongoDB in Action is Here!
+desc:       The release of my book, MongoDB in Action
+keywords:   mongodb, book, manning
+created_at: 2011-12-03 23:19:01.145090 -05:00
+blog_post:  true
+layout: blog
+filter:
+- erb
+- textile
+--- 
+
+"<i>MongoDB in Action</i>":http://manning.com/banker is now in print! This means two things:
+
+# You can read a single book about MongoDB that takes you from total beginner to budding master.
+# I can start blogging again. It turns out that book writing is much more intense that I'd imagined.
+
+You can purchase and "download the book from the publisher":http://manning.com/banker right now. ePub and Kindle versions will be available on December 23. If you'd like to read a bit more about the book, check out my "<i>MongoDB in Action</i>
+blog":http://mongodb-book.com.
+
+Finishing the book feels much like finishing a marathon. There's deep sense of relief and accomplishment.
+Of course, I could not have done it without the support of my family and my amazing colleagues at 10gen.
+I'm grateful to all these folks.
+
+The book is dedicated to peace and human dignity. Most technical books aren't dedicated to ideals, but I
+feel that working for peace and the dignity of all human beings is as important as ever and that
+expressing that, even in a small way, is worthwhile.
+
+If you end up buying the book, many thanks in advance. I sincerely hope that it proves useful, even enjoyable.
