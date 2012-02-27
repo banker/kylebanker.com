@@ -28,13 +28,12 @@ body { font-size: 100%; }
    font: 1em Georgia, "lucida bright", "times new roman", serif; */
    
 body { 
-  color: #303030; 
-  font-family: 'Baskerville','Palatino Linotype','Times New Roman',serif; 
-}
-h1,h2,h3,h4,h5,h6 { 
-  font-family: 'Baskerville','Palatino Linotype','Times New Roman',serif; 
+  font-family: 'Ledger',serif; 
 }
 
+h1,h2,h3,h4,h5,h6 { 
+  font-family: 'Inder', sans-serif; 
+}
 
 /* Headings
 -------------------------------------------------------------- */
@@ -63,7 +62,7 @@ ul          { list-style-type: disc; }
 ol          { list-style-type: decimal; }
 dl          { margin: 0 0 1.5em 0; }
 dl dt       { font-weight: bold; }
-dd          { margin-left: 1.5em;}
+dd          { font-size 1.0em; margin-left: 1.5em;}
 
 abbr, 
 acronym     { border-bottom: 1px dotted #666; }
@@ -117,5 +116,3 @@ table .last { padding-right: 0; }
 
 .top        { margin-top:0; padding-top:0; }
 .bottom     { margin-bottom:0; padding-bottom:0; }
-
-

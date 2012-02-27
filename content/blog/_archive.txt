@@ -4,7 +4,7 @@ filter: erb
 <div class="post">
   <p class="title">
     <a title="Permanent link to '<%= page.title %>'" rel="bookmark" href="<%= page.url %>"><%= page.title %></a>
- | <span class="date"><%= short_date(page.created_at)
+ <span class="date"><%= format_date(page.created_at)
  %></span></p>
 <p class="description"><%= page.desc %></p>
 </div>

@@ -1,13 +1,13 @@
 ---
-title:      Archives | Hwæt!  
-desc:       All the articles ever posted on Hwæt!
+title:      Articles
+desc:       All the articles worth archiving.
 keywords:   kyle banker, archives
 created_at: 2009-01-21 21:41:13.084816 -05:00
 dirty:      true
 layout:     blog
 filter:     erb
 ---
-<h1>Archives</h1>
+<h1>Articles</h1>
 <div id="archives">
 <% articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true,
       :sort_by => "created_at", :reverse => true, :blog_post => true)

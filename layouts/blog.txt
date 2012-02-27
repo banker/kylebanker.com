@@ -13,63 +13,65 @@ filter:    erb
    <meta name="keywords" content="<%= @page.keywords %>" />
    <meta name="author" content="Kyle Banker" />
 
-   <!--- Blueprint CSS Framework -->
-   <link rel="stylesheet" href="/assets/css/screen.css" type="text/css" media="screen, projection" />
-
+   <link rel="stylesheet" href="/assets/css/reset.css" type="text/css" media="screen, projection" />
+   <link href='http://fonts.googleapis.com/css?family=Inder|Ledger' rel='stylesheet' type='text/css'>
+   <link rel="stylesheet" href="/assets/css/typography.css" type="text/css" media="screen, projection" />
+   <link rel="stylesheet" href="/assets/css/blog.css" type="text/css" media="screen, projection" />
    <link rel="stylesheet" href="/assets/css/code.css" type="text/css" />
 
-   <!-- Blog CSS -->
-   <link rel="stylesheet" href="/assets/css/blog.css" type="text/css" media="screen, projection" />
-   <link rel="alternate" type="application/rss+xml" title="Kyle Banker RSS Feed" href="http://kylebanker.com/blog/feed.xml" />
+   <link rel="alternate" type="application/rss+xml"
+     title="Kyle Banker RSS Feed" href="http://kylebanker.com/blog/feed.xml" />
+
    <script type='text/javascript'>
      var disqus_developer = 1;
    </script>
-
 </head>
 <body>
-   <div id="sidebar">
-    <ul>
-    <li><% if @page.path != "content/blog/about.txt" %>
-      <a title="who is kyle banker?" href="/blog/about/">about me</a>
-    <% else %>
-      about me
-    <% end %></li>
-
-    <% if @page.path != "content/blog/archives.txt" %>
-      <li><a title="a list of past articles"
-      href="/blog/archives/">archives</a></li>
-    <% else %>
-      <li>archives</li>
-    <% end %>
-    </ul>
-
-    <div id="book">
-    <a href="http://manning.com/banker"><img src="/assets/images/mongodb-in-action.png" /></a>
-    </div>
-   </div>
-
-
 <div class="container">
-   <div class="column full last">
-     <% if @page.blog_post == true %>
-       <%= render :partial => "/blog/post", :locals => {:page =>
-       @page, :content => @content, :link => false} %>
-     <% else %>
-       <%= @content %>
-     <% end %>
-   <% if @page.comments %>
-<div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/kylebanker/embed.js"></script><noscript><a href="http://kylebanker.disqus.com/?url=ref">View the discussion thread.</a></noscript><a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-   <% end %>
+   <div class="grid_2">
+       <% if @page.blog_post == true %>
+           <%= render :partial => "/blog/post", :locals => {:page =>
+           @page, :content => @content, :link => false} %>
+         <% else %>
+           <%= @content %>
+         <% end %>
+       <% if @page.comments %>
+          <div id="disqus_thread"></div><script type="text/javascript"
+          src="http://disqus.com/forums/kylebanker/embed.js"></script><noscript>
+          <a href="http://kylebanker.disqus.com/?url=ref">View the discussion thread.</a>
+          </noscript><a href="http://disqus.com"
+          class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+       <% end %>
+    </div>
+
+    <div id="sidebar" class="grid_1">
+      <h4>About</h4>
+      <p>This is a place on the internet for the writings of Kyle Banker.</p>
+      <ul>
+      <li><% if @page.path != "content/blog/about.txt" %>
+        <a title="who is kyle banker?" href="/blog/about/">about me</a>
+      <% else %>
+        about me
+      <% end %></li>
+
+      <% if @page.path != "content/blog/archives.txt" %>
+        <li><a title="a list of past articles"
+        href="/blog/archives/">articles</a></li>
+      <% else %>
+        <li>articles</li>
+      <% end %>
+      </ul>
    </div>
 
-   <div id="footer" class="column full last">
-     <p>copyright 2007-2011 kyle banker and licensed under the <a
+  <div class='clear'>&nbsp;</div> 
+
+   <div id="footer" class="grid_2">
+     <p>&copy; 2007-2012 Kyle Banker. <a
      href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/">creative
-     commons</a>. share and <a
-     href="/blog/feed.xml">subscribe</a> freely.
+     commons</a> licensed. <a href="/blog/feed.xml">subscribe</a>.
    </div>
+</div> <!-- container -->
 
-</div>
 <script type="text/javascript">
 var disqus_developer = 1;
 //<![CDATA[

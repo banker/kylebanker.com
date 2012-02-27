@@ -6,30 +6,192 @@ layout:    nil   # no layout
 color:
   black:       "#303030"
   white:       "#FFFFFF"
-  soft-gray:   "#CFD4B2"
+  soft-gray:   "#CECECE"
   dark-gray:   "#737373"
-  link:        "#F02EBC"
-  link-bg:     "#F7C41F"
+  link:        "#78A6D3"
+  link-bg:     "#FFFFFF"
   link-hover:  "#FC930A"
   blockquote:  "#5C5C5C"
   highlight:   "#B2CCFF"
   quiet:       "#666"
   alt:         "#666"
 ---
-@import "grid.css";
+
+/* Grid
+ * --------------------------------------------------------------------- */
+
+/*
+  Variable Grid System.
+  Learn more ~ http://www.spry-soft.com/grids/
+  Based on 960 Grid System - http://960.gs/
+
+  Licensed under GPL and MIT.
+*/
+
+/*
+  Forces backgrounds to span full width,
+  even if there is horizontal scrolling.
+  Increase this if your layout is wider.
+
+  Note: IE6 works fine without this fix.
+*/
 
 body {
-  min-width: 900px;
+  min-width: 1110px;
+}
+
+/* Container
+----------------------------------------------------------------------------------------------------*/
+.container {
+  margin-left: 20px;
+  margin-right: auto;
+  width: 1110px;
+}
+
+/* Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.grid_1,
+.grid_2,
+.grid_3 {
+  display:inline;
+  float: left;
+  position: relative;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.push_1, .pull_1,
+.push_2, .pull_2,
+.push_3, .pull_3 {
+  position:relative;
+}
+
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+  margin-left: 0;
+}
+
+.omega {
+  margin-right: 0;
+}
+
+/* Grid >> 3 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container .grid_1 {
+  width:350px;
+}
+
+.container .grid_2 {
+  width:720px;
+}
+
+.container .grid_3 {
+  width:1090px;
+}
+
+
+/* Prefix Extra Space >> 3 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container .prefix_1 {
+  padding-left:370px;
+}
+
+.container .prefix_2 {
+  padding-left:740px;
+}
+
+/* Suffix Extra Space >> 3 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container .suffix_1 {
+  padding-right:370px;
+}
+
+.container .suffix_2 {
+  padding-right:740px;
+}
+
+/* Push Space >> 3 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container .push_1 {
+  left:370px;
+}
+
+.container .push_2 {
+  left:740px;
+}
+
+/* Pull Space >> 3 Columns
+----------------------------------------------------------------------------------------------------*/
+
+.container .pull_1 {
+  left:-370px;
+}
+
+.container .pull_2 {
+  left:-740px;
+}
+
+
+/* `Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+.clearfix:before,
+.clearfix:after {
+  content: '\0020';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet if invalid CSS is a problem.
+*/
+
+.clearfix {
+  zoom: 1;
+}
+
+/* General settings.
+ * --------------------------------------------------------------------- */
+
+body {
   color: <%= @page.color['black'] %>;
 }
 
 /* Headings
  * --------------------------------------------------------------------- */
 h1 { 
-  color: <%= @page.color['blue'] %>;
   font-weight: bold;
 }
-h2,h3,h4,h5,h6 { color: <%= @page.color['black'] %>; }
+
+h1,h2,h3,h4,h5,h6 { color: <%= @page.color['black'] %>; }
 
 /* Text Elements
  * --------------------------------------------------------------------- */
@@ -40,7 +202,7 @@ h1 a:link, h1 a:visited {
 
 h1 a:hover, h1 a:active {
   border-bottom: 1px solid <%= @page.color['link'] %>;
-  background-color: <%= @page.color['white'] %>;
+  text-decoration: none;
 }
 
 a, a:visited, a:link { 
@@ -50,8 +212,7 @@ a, a:visited, a:link {
 }
 
 a:hover, a:active { 
-  color: <%= @page.color['white'] %>;
-  background-color: <%= @page.color['link'] %>;
+  text-decoration: underline;
 }
 
 a:hover.image {
@@ -98,9 +259,6 @@ p.title {
 /* Logo Classes
  * --------------------------------------------------------------------- */
 #sidebar {
-  float: left;
-  margin-left: 20px;
-  width: 130px;
   color: <%= @page.color['soft-gray'] %>;
 }
 
@@ -168,10 +326,10 @@ p.title {
   margin-bottom: 5em;
 }
 
-.post p.date {
+.post p.date, .post .date  {
   color: <%= @page.color['soft-gray'] %>;
   text-align: left;
-  font-size: 1.2em;
+  font-size: 1.0em;
   font-style: italic;
 }
 
@@ -186,27 +344,23 @@ p.title {
 }
 
 .post p {
-  font-size: 1.3em;
+  font-size: 1em;
 }
 
-.post ul {
-  font-size: 1.3em;
+.post li {
+  margin-bottom: 0.6em;
 }
 
 .post p span.readmore {
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 .post p.small {
-  font-size: 1.2em;
+  font-size: 0.9em;
 }
 
 .post p img {
   margin: 0 auto;
-}
-
-.post ol li {
-  font-size: 1.2em;
 }
 
 .dingbat {
@@ -224,8 +378,8 @@ p.title {
  * --------------------------------------------------------------------- */
 #about {
   margin-top:1em;
-  font-size: 1.2em;
 }
+
 /* Archive Classes
  * --------------------------------------------------------------------- */
 #archives h4.year {
@@ -245,6 +399,7 @@ p.title {
 
 #archives .post span.date {
   font-style: italic;
+  font-size: 0.8em;
 }
 
 #archives .post p.description {
@@ -265,16 +420,16 @@ dl.quiz dd {
 }
 
 dl.quiz dd {
-  font-size: 1.2em;
+  font-size: 1.0em;
 }
 
  /* Footer Classes
  * --------------------------------------------------------------------- */
 #footer {
   margin-top: 1em;
-  border-top: 1px solid <%= @page.color['soft-grey']%>;
+  border-top: 1px solid <%= @page.color['soft-gray'] %>;
   text-align:center;
-  color: #CFD4B2;
+  color: <%= @page.color['soft-gray'] %>;
 }
 
 /* EOF */
