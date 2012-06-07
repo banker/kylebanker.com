@@ -35,6 +35,12 @@ filter:    erb
          <% else %>
            <%= @content %>
          <% end %>
+
+       <% if @page.mongodb %>
+         <hr />
+         <p>If you liked this post, you should 
+         check out my book, <a href="http://www.amazon.com/MongoDB-Action-Kyle-Banker/dp/1935182870">MongoDB in Action</a>.</p>.
+       <% end %>
        <% if @page.comments %>
           <div id="disqus_thread"></div><script type="text/javascript"
           src="http://disqus.com/forums/kylebanker/embed.js"></script><noscript>
@@ -46,7 +52,7 @@ filter:    erb
 
     <div id="sidebar" class="grid_1">
       <h4>About</h4>
-      <p>This is a place on the internet for the writings of Kyle Banker.</p>
+      <p>I'm Kyle Banker. This is where I write stuff.</p>
       <ul>
       <li><% if @page.path != "content/blog/about.txt" %>
         <a title="who is kyle banker?" href="/blog/about/">about me</a>

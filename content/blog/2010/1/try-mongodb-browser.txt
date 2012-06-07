@@ -13,7 +13,9 @@ filter:
 
 Want to <a href="http://mongo.kylebanker.com">try MongoDB in your browser</a>? Just deployed this a few days ago:
 
-<div class="clear"><a class="image" href="http://mongo.kylebanker.com"><img width="640px" src="/assets/content/2010/try-mongo-screenshot.png" alt="Try MongoDB Screenshot" title="Try MongoDB"></a></div>
+<a class="image" href="http://mongo.kylebanker.com"><img width="640px" src="/assets/content/2010/try-mongo-screenshot.png" alt="Try MongoDB Screenshot" title="Try MongoDB"></a>
+
+<div class="clear"></div>
 
 One of the nice things about MongoDB's JavaScript shell is that we can run a variation on it directly in the browser. It doesn't provide near the functionality of the actual shell, but users can still get a feel for CRUD in MongoDB, and it's possible to use any of the nifty <a href="http://www.mongodb.org/display/DOCS/Advanced+Queries">query</a> and <a href="http://www.mongodb.org/display/DOCS/Atomic+Operations#AtomicOperations-Modifieroperations">update operators</a>.
 

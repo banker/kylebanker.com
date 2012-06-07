@@ -4,6 +4,7 @@ desc:       How the MongoDB drivers automatically support new features.
 keywords:   mongodb, ruby, findAndModify command, $addToSet, mongodb indexes
 created_at: 2010-03-28 14:56:45.094526 -04:00
 blog_post:  true
+mongodb: true
 layout: blog
 comments: true
 filter:

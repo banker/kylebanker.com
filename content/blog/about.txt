@@ -13,9 +13,12 @@ filter:     erb
   <p>Hi. I'm Kyle Banker, a coder, ocassional
   philosopher, and aspiring polymath living in New York City.</p>
 
-  <p>I'm fortunate to work at <a href="http://10gen.com">10gen</a> where, among other things, I maintain
+  <p>I work at <a href='http://www.snapjoy.com/'>Snapjoy</a> where we help
+     people preserve and tell the story of their lives.</p>
+
+  <p>I used to work at <a href="http://10gen.com">10gen</a> where, among other things, I maintained
   the MongoDB drivers for <a href="http://github.com/mongodb/mongo-ruby-driver/">Ruby</a> and
-  <a href="https://github.com/mongodb/mongo-c-driver">C</a>. I'm also the author of
+  <a href="https://github.com/mongodb/mongo-c-driver">C</a>. I'm the author of
   <a href="http://manning.com/banker"><i>MongoDB in Action</i></a>.
 
   <p>Here are some other places you can find me online:</p>
