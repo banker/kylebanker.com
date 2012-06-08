@@ -4,6 +4,7 @@ desc:       Schema-less documents, dynamic queries, and binary storage.
 keywords:   mongodb, document database, ruby
 created_at: 2009-11-05 20:59:32.787961 -05:00
 blog_post:  true
+mongodb: true
 comments: true
 layout: blog
 filter:
